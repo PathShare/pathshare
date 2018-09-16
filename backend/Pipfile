@@ -3,7 +3,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+dev = "pipenv run python pathshare_api/main.py"
+
 [packages]
+aiohttp = "*"
+pymongo = {version = "*", extras = ["tls"]}
+dnspython = "*"
 
 [dev-packages]
 
