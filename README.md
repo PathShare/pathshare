@@ -1,5 +1,11 @@
 ## Pathshare Backend
 
-Backend source code for the PathShare college ride sharing platform.
+Backend source code for the PathShare college ride sharing platform. Course project for CS 4365 at Texas Tech University.
 
-CS 4365
+### Group Members
+  - Scott Blechman
+  - Fox Bolduc
+  - Miranda Castillo
+  - Carlos Garcia
+  - Kein Phan
+  - Simon Woldemichael
