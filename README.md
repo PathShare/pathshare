@@ -5,7 +5,7 @@ Backend source code for the PathShare college ride sharing platform. Course proj
 ### Group Members
   - Scott Blechman
   - Fox Bolduc
-  - Miranda Castillo
+  - Miranda Carrillo
   - Carlos Garcia
   - Kein Phan
   - Simon Woldemichael
