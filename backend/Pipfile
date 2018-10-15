@@ -8,9 +8,10 @@ dev = "pipenv run python pathshare_api/main.py"
 
 [packages]
 aiohttp = "*"
-pymongo = {version = "*", extras = ["tls"]}
 dnspython = "*"
 aiohttp-devtools = "*"
+motor = "*"
+pymongo = {extras = ["tls"], version = "*"}
 
 [dev-packages]
 
