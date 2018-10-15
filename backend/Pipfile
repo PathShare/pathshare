@@ -5,6 +5,7 @@ name = "pypi"
 
 [scripts]
 dev = "pipenv run python pathshare_api/main.py"
+test = "pipenv run pytest --show-progress -cov=./"
 
 [packages]
 aiohttp = "*"
@@ -14,6 +15,11 @@ motor = "*"
 pymongo = {extras = ["tls"], version = "*"}
 
 [dev-packages]
+pytest = "*"
+pytest-aiohttp = "*"
+coveralls = "*"
+pytest-cov = "*"
+pytest-progress = "*"
 
 [requires]
 python_version = "3.6"
