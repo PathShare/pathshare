@@ -14,13 +14,15 @@ aiohttp-devtools = "*"
 motor = "*"
 pymongo = {extras = ["tls"], version = "*"}
 marshmallow = "*"
+cryptography = "*"
 
 [dev-packages]
 pytest = "*"
-pytest-aiohttp = "*"
 coveralls = "*"
 pytest-cov = "*"
 pytest-progress = "*"
+pytest-aiohttp = "*"
+pytest-asyncio = "*"
 
 [requires]
 python_version = "3.6"
