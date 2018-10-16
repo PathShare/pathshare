@@ -5,7 +5,7 @@ name = "pypi"
 
 [scripts]
 dev = "pipenv run python pathshare_api/main.py"
-test = "pipenv run pytest --show-progress -cov=./"
+test = "pipenv run pytest -s --show-progress --cov=./"
 
 [packages]
 aiohttp = "*"
@@ -13,6 +13,7 @@ dnspython = "*"
 aiohttp-devtools = "*"
 motor = "*"
 pymongo = {extras = ["tls"], version = "*"}
+marshmallow = "*"
 
 [dev-packages]
 pytest = "*"
