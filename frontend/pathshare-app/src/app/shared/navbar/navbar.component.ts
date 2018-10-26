@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  // Page element displays. These will be updated based on routing information.
+  displayPageTitle = true;
+  displayBackButton = false;
+  displayMenuIcons = true;
+
   constructor() { }
 
   ngOnInit() {

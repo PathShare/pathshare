@@ -22,8 +22,21 @@
     font-size: 1.66rem;
 }
 
+.dropdown-menu {
+    margin-left: -5rem;
+}
+
 #user-profile {
     font-size: 2.5rem;
     margin-left: 1rem;
     letter-spacing: 0;
+}
+
+#buttonBack {
+    font-size: 2rem;
+    color: #eee;
+}
+
+#buttonBack:hover {
+    color: #fff;
 }
