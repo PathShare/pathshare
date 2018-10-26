@@ -1,0 +1,29 @@
+.bg-dark {
+    background-color: #212121!important;
+}
+
+.navbar-brand {
+    font-family: 'Comfortaa', cursive;
+    font-size: 1.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.fas {
+    font-size: 1.5rem;
+    letter-spacing: 0.4em;
+    color: #bdbdbd;
+    line-height: 33px;
+    transition: color 0.5s ease, font-size 0.25s ease;
+}
+
+.fas:hover {
+    color: #fafafa;
+    font-size: 1.66rem;
+}
+
+#user-profile {
+    font-size: 2.5rem;
+    margin-left: 1rem;
+    letter-spacing: 0;
+}
