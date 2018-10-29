@@ -1,3 +1,37 @@
 label {
     color: #fff;
 }
+
+input {
+    outline: none;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.map-container {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+img {
+    height: 50%;
+    width: 50%;
+}
+
+#search {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+button {
+    background-color: #01579b;
+    border-color: #01579b;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0d47a1;
+    border-color: #0d47a1;
+}

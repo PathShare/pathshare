@@ -1,5 +1,24 @@
+nav {
+    margin-bottom: 1rem;
+}
+
 .bg-dark {
     background-color: #212121!important;
+}
+
+p {
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0 !important;
+    font-size: 1rem;
+    letter-spacing: 0.4em;
+    color: #bdbdbd;
+    line-height: 33px;
+    transition: color 0.5s ease, font-size 0.33s ease;
+}
+
+p:hover {
+    color: #fafafa;
+    font-size: 1.05rem;
 }
 
 .navbar-brand {
