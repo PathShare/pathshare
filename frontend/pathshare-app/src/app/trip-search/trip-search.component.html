@@ -20,6 +20,12 @@
 
       <div class="map-container">
         <img src="assets/img/map.svg" alt="Map of the United States">
+
+        <svg *ngFor="let point of allTripPoints" 
+        [ngStyle]="{'left':coordinateToPosition(point.latitude, point.longitude)['x'],
+                    'top':coordinateToPosition(point.latitude, point.longitude)['y']}">
+            <circle cx="5" cy="5" r="4" stroke="white" stroke-width="2" fill="#9e9e9e"/>
+        </svg>
       </div>
 
       <form id="search">

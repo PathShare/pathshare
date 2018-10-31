@@ -13,11 +13,22 @@ input {
 .map-container {
     margin-top: 2.5rem;
     text-align: center;
+    position: relative;
 }
 
 img {
     height: 50%;
     width: 50%;
+    left: 0px;
+    top: 0px;
+    z-index: 0;
+}
+
+svg {
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    z-index: 1;
 }
 
 #search {
