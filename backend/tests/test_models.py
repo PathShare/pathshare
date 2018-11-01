@@ -7,8 +7,7 @@ import pytest
 from datetime import datetime
 from uuid import uuid4 # Used to generate tokens
 
-from pathshare_api.models.ride import Ride
-from pathshare_api.models.user import User
+from ..pathshare_api.models import Ride, User
 from pathshare_api.utilities import encrypt_password
 
     
