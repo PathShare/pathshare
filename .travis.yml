@@ -1,0 +1,11 @@
+language: python
+python:
+- '3.6'
+#before_install:
+# encryption goes here
+install:
+- "cd backend"
+- pip install pipenv
+- pipenv install --dev
+script:
+- pipenv run pytest --cov=./ --show-progress
