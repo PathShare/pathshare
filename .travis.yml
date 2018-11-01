@@ -5,6 +5,7 @@ python:
 # encryption goes here
 install:
 - "cd backend"
+- python -m pip install -e .
 - pip install pipenv
 - pipenv install --dev
 script:
