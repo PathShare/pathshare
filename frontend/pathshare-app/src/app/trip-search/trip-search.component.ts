@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Ride, Coordinate } from '../shared/model/ride';
 import { SearchService } from './search.service';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 interface Segment {start: Coordinate; end: Coordinate; }
 
@@ -14,22 +15,38 @@ export class TripSearchComponent implements OnInit {
   // Stores scaled Cartesian coordinates to plot on map.
   allTripPoints: Coordinate[];
 
-  // Stores segments between start and end points to plot on map.
-  allTripSegments: Segment[];
+  searchForm = new FormGroup({
+    startLocation: new FormControl(),
+    endLocation: new FormControl(),
+    startDate: new FormControl()
+  });
 
-  constructor(private searchService: SearchService) { }
+  constructor(private searchService: SearchService,
+    private builder: FormBuilder) { }
 
   ngOnInit() {
+    this.searchForm = this.builder.group({
+      startLocation: [''],
+      endLocation: [''],
+      startDate: ['']
+    });
+
     this.allTripPoints = [];
-    this.allTripSegments = [];
 
     this.searchService.getAllRides().subscribe(rides => {
       rides.forEach(ride => {
         this.allTripPoints.push(ride.departureLocation);
         this.allTripPoints.push(ride.destinationLocation);
-        this.allTripSegments.push({start: ride.departureLocation, end: ride.destinationLocation});
       });
     });
+  }
+
+  /**
+   * @description gets form information, and passes the information to a shared
+   * service that will process the search criteria through the API.
+   */
+  public searchRides() {
+
   }
 
   /**
@@ -55,11 +72,5 @@ export class TripSearchComponent implements OnInit {
 
     return {x: LEFT_MARGIN + ((RIGHT_MARGIN - LEFT_MARGIN) * latMargin),
             y: BOTTOM_MARGIN - ((BOTTOM_MARGIN - TOP_MARGIN) * longMargin)};
-  }
-
-  private getTripPath(segment: Segment) {
-    const startPosition = this.coordinateToPosition(segment.start.latitude, segment.start.longitude);
-    const endPosition = this.coordinateToPosition(segment.end.latitude, segment.end.longitude);
-    return `m50 50 100 100`;
   }
 }
