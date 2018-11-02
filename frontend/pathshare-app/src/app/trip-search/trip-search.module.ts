@@ -10,6 +10,6 @@ import {ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule
   ],
   declarations: [TripSearchComponent],
-  exports: [TripSearchComponent]
+  exports: [TripSearchComponent],
 })
 export class TripSearchModule { }

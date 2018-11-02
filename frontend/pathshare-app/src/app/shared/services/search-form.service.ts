@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchFormService{
+export class SearchFormService {
 
   private formData = {start: '', end: '', date: ''};
 
