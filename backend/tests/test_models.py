@@ -18,11 +18,19 @@ def test_ride_model() -> None:
         lat="35.000241",
         long="-106.346231",
     )
+
+    # Create a destination location
+    destination = dict(
+        lat="33.5873746",
+        long="-101.8754254"
+    )
+
     # Create a ride, use the departure location
     ride = dict(
         riders=[0, 1, 2, 3, 4, 5],
         departure_date=datetime.now(),
         departure_location=depature_location,
+        destination=destination,
         price_per_seat=20,
         is_active=True,
     )
