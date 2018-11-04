@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
-dev = "pipenv run python pathshare_api/main.py"
-test = "pipenv run pytest -s --show-progress --cov=./"
+dev = "python pathshare_api/main.py"
+test = "pytest -s --show-progress --cov=./"
 
 [packages]
 aiohttp = "*"
