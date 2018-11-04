@@ -2,10 +2,13 @@
 
 import json
 
+from datetime import datetime
 from uuid import uuid4
 
 import aiohttp
+
 from aiohttp import web
+from bson.objectid import ObjectId
 
 from pathshare_api.models import Ride, User
 from pathshare_api.utilities import encrypt_password
@@ -90,15 +93,15 @@ class PostEndpoints(object):
         }
         """
         # Wait for a new concurrent POST request to be made
-        data = await request.post()
+        data = await request.json()
 
         # Define what data should be in the request
-        expceted_keys = ["name", "major", "age", "username", "email", "password"]
-        for key in expceted_keys:
+        expected_keys = ["name", "major", "age", "username", "email", "password"]
+        for key in expected_keys:
             try:
                 # Assert that the request contains all expected keys
                 assert key in data
-            except AssertionError as e:
+            except AssertionError:
                 return web.json_response({"error": f"Request must contain key: '{key}'."}, status=422)
         
         # Check for duplicates using custom method
