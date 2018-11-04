@@ -21,13 +21,40 @@ class PostEndpoints(object):
     
     Notes
     -----
-    Sample request to /post/user/new using HTTPie:
-    `http --form POST :5002/post/user/new name=simon major=cs \
-    age=21 username=swoldemi email=swoldemi@gmail.com password=hi`
-    
+    content-type header key must always have value `application/json`
+
+    Sample request (raw JSON w/ content-type of application/json) to /post/user/new using Postman:
+    {
+        "name": "simon",
+        "major": "Computer Science",
+        "age": 21,
+        "username": "swoldemi",
+        "email": "simon.woldemichael@ttu.edu",
+        "password": "hello"
+    }
+
+    Sample request (raw JSON w/ content-type of application/json) to /post/ride/new using Postman:
+    {
+        "riders": [
+            "5bc55ee9dfd3e35138e256e1",
+		    "5bdea23cdfd3e33ea4d51a50"
+        ],
+        "departure_date": "Dec 2 2018 4:20PM",
+        "departure_location": [	
+            "33.587502",
+            "-101.8704613"
+        ],
+        "destination": [
+            "33.5873746", 
+            "-101.8754254"
+        ],
+        "price_per_seat": 5.00
+    }
+
     See Also
     ---------
     https://motor.readthedocs.io/en/stable/api-tornado/motor_collection.html?highlight=aggregate#motor.motor_tornado.MotorCollection.aggregate
+    https://httpie.org/doc#non-string-json-fields
     """
 
     def __init__(self, db):
