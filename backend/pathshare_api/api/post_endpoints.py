@@ -129,6 +129,71 @@ class PostEndpoints(object):
         return web.json_response({"success": f"Account successfully created."}, status=200)
       
 
-    async def post_new_ride(self, request: aiohttp.web_request.Request):
-        """Add a new ride to the system."""
-        raise NotImplementedError
+    async def post_new_ride(self, request: aiohttp.web_request.Request) -> web.json_response:
+        """Add a new ride to the system.
+        
+        Parameters
+        -----------
+        aiohttp.web_request.Request
+            A request to the endpoint made by the frontend web client.
+
+        Returns
+        --------
+        web.json_response
+        Three types of JSON responses.
+            The first occurs when a key is missing. (Status 422 => Unprocessable Entity)
+            The second occurs when the email is not unique. (Status 417 => Expectation Failed)
+            The third occurs when the new user POST request was successful. (Status 200 => OK)
+        
+        Notes
+        -----
+        Expected request format:
+        {
+            riders : List[ObjectID]
+            departure_date : str
+            departure_location : List[str]
+            destination : List[str]
+            price_per_seat : float         
+        }
+        """
+        # Wait for a new concurrent POST request to be made
+        # Read JSON body
+        data = await request.json() 
+
+        # Define what data should be in the request
+        expected_keys = ["riders", "departure_date", "departure_location", "destination", "price_per_seat"]
+        for key in expected_keys:
+            try:
+                # Assert that the request contains all expected keys
+                assert key in data
+            except AssertionError:
+                return web.json_response({"error": f"Request must contain key: '{key}'."}, status=422)
+
+        # Make sure the riders listed are active accounts in the database
+        riders = data.get("riders")
+
+        for user_id in riders:
+            try:
+                _id = ObjectId(user_id)
+            except Exception as e:
+                return web.json_response({"error": f"User ID {user_id} is not valid. Exception: {e}"}, status=417)
+            user = await self.db.client.users.find_one({"_id": _id})
+            if user is None:
+                return web.json_response({"error": f"User ID {user_id} is not associated to any account."}, status=417)
+        
+        # Checks have passed, create the ride
+        ride_schema = Ride()
+        document = dict(
+            riders=riders,
+            departure_date=datetime.strptime(data.get("departure_date"), "%b %d %Y %I:%M%p"),
+            price_per_seat=data.get("price_per_seat"),
+            departure_location=data.get("departure_location"),
+            destination=data.get("destination"),
+            is_active=False,
+        )
+        document = ride_schema.dump(document).data
+
+        # Insert the new ride into the database
+        await self.db.client.rides.insert_one(document)
+        return web.json_response({"success": f"Account ride successfully added."}, status=200)
+        
