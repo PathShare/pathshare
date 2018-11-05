@@ -32,17 +32,15 @@ async def init_app() -> web.Application:
     db = MongoConnection(client)
     
     # Initialize endpoint classes
-    # gets = GetEndpoints(db)
+    gets = GetEndpoints(db)
     posts = PostEndpoints(db)
     
     # Add routes to application
-    """
     # GET routes are currently not implemented
-    app.router.add_get("/get/ride", GetEndpoints.get_ride)
-    app.router.add_get("/get/user", GetEndpoints.get_user)
-    app.router.add_get("/get/ride/all", GetEndpoints.get_all_rides)
-    app.router.add_get("/get/validation/", GetEndpoints.get_validation)
-    """
+    # app.router.add_get("/get/ride", GetEndpoints.get_ride)
+    app.router.add_get("/get/user", gets.get_user)
+    app.router.add_get("/get/ride/all", gets.get_all_rides)
+    # app.router.add_get("/get/validation/", GetEndpoints.get_validation)
 
     # POST routes
     app.router.add_post("/post/user/new", posts.post_new_user)
