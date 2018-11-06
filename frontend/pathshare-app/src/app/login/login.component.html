@@ -1,0 +1,18 @@
+<div class="example-wrapper">
+    <button class="btn btn-primary" *ngIf="!dialogOpened" (click)="open('dialog')">Login</button>
+   
+    
+    <kendo-dialog title="Log In" class =".k-dialog-titlebar" *ngIf="dialogOpened" (close)="close('dialog')" [minWidth]="200" [width]="600">
+        <h3 style="text-align: center">Start your trip here</h3>
+      
+                <input matInput type="text" class="form-control" id="" style="margin-bottom: 10px" floatPlaceholder="always" placeholder="User name">
+                <input matInput type="text" class="form-control" id="" placeholder="Password">
+      
+                <br>
+                
+        <div style="margin-left: 250px">
+                <button style="align-content: center; padding-top: 10px" type="submit" class="btn btn-primary" (click)="action('no')"> Login</button>
+            
+        </div>
+    </kendo-dialog>
+  </div>
