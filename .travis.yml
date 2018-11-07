@@ -1,12 +1,13 @@
 language: python
 python:
 - '3.6'
-#before_install:
-# encryption goes here
 install:
-- "cd backend"
+- cd backend
 - python -m pip install -e .
 - pip install pipenv
 - pipenv install --dev
 script:
 - pipenv run pytest --cov=./ --show-progress
+env:
+  global:
+    secure: Sm+CA+pTqr5MJi8tLu2RZPMqAvmLdm0yjn4BlyQqO1T3Om4bj3IPuXtuHF63DvWOk7WHmXgiUNFaBKAeis6z/sLr5XjlxsgDMd7kGZxgUiRD/pR9sPCHMubh4aHcMpzVpE4C9xjGJQpWoKlXp4tupdWx8deDoqr4rc/MyrMQ7vju8Xr9qmcadoaHcGccXhC1+1YM+azRI199Nv7UViLeOKUkOhEM5zFZK8SQkoWhs/Qk6+nLgSozYcbKxKgfmWzem4jgBVnP0Te1iCXm6ztg1G/hssxFOGNYhLIdBXVLXATwMGG72Bo04RK8jCnapmSIW0YtUvMMlXKhd6ONuKlXiOb5i/bNpz8GUp1xnxKwSs21ydzbbMwNXeekWYX0nVdm13BxtmrYAa5sqD7DsB5x+KG5njHj3yRoqO4Rt4NDVNzbGt2fOx7SnGyzCXWKbySDnEc7zHf975AJnNeGntIjhfm/KQ9XivbQmEJ0w0SwpW2nrgEbZkv/J9jAgOUHu4UtIlciO150vuSwlk6UpkoMFCcTl6q0jPuvIgNFa1mYCtuSLlniGFjy0710ECHzK+adkAPaps3xwSZmuAG3EIPnSAFzuhRyTua6QnyEEY8ilsHRCv8DMyD5EJQIsJMVwCrAr5hkij+N9F5/ya0ZS6wRjkR6U9X33/sG5MxYU+Oc7Ho=
