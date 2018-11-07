@@ -1,5 +1,8 @@
 ## PathShare
 
+### Build Status
+https://travis-ci.org/PathShare/pathshare.svg?branch=masterhttps://travis-ci.org/PathShare/pathshare
+
 Source code for the PathShare college ride sharing platform. Course project for CS 4365 - Software Engineering 1 at Texas Tech University.
 
 ### Group Members
