@@ -3,6 +3,7 @@ import { Ride, Coordinate } from '../shared/model/ride';
 import { SearchService } from './search.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { SearchFormService } from '../shared/services/search-form.service';
+import { Router } from '@angular/router';
 
 interface Segment {start: Coordinate; end: Coordinate; }
 
@@ -25,7 +26,8 @@ export class TripSearchComponent implements OnInit {
   constructor(
     private searchService: SearchService,
     private builder: FormBuilder,
-    private formService: SearchFormService) { }
+    private formService: SearchFormService,
+    private router: Router) { }
 
   ngOnInit() {
     this.searchForm = this.builder.group({
@@ -51,6 +53,7 @@ export class TripSearchComponent implements OnInit {
   public searchRides() {
     this.formService.setSearchQuery(this.searchForm.controls['startLocation'].value,
       this.searchForm.controls['endLocation'].value, this.searchForm.controls['startDate'].value);
+    this.router.navigateByUrl('/rides');
   }
 
   /**
