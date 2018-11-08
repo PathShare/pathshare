@@ -117,7 +117,7 @@ class PostEndpoints(object):
             major=data.get("major"),
             age=data.get("age"),
             token=uuid4().hex,
-            is_validates=False,
+            is_validated=False,
             username=data.get("username"),
             email=data.get("email"),
             password=password,
@@ -125,8 +125,8 @@ class PostEndpoints(object):
         document = user_schema.dump(document).data
 
         # Insert the new user into the database
-        await self.db.client.users.insert_one(document)
-        return web.json_response({"success": f"Account successfully created."}, status=200)
+        inserted_result = await self.db.client.users.insert_one(document)
+        return web.json_response({"success": f"Account successfully created: {inserted_result.inserted_id}."}, status=200)
       
 
     async def post_new_ride(self, request: aiohttp.web_request.Request) -> web.json_response:
