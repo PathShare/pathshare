@@ -1,3 +1,27 @@
-<p>
-  signin works!
-</p>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Start Your Trip Here</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form>
+    <div class="modal-body">
+        <input matInput type="text" class="form-control" id="" style="margin-bottom: 15px" floatPlaceholder="always" placeholder="Username">
+        <input matInput type="text" class="form-control" id="" placeholder="Password">
+    </div>
+    <div class="modal-footer" >
+        <button style="align-content: center; padding-top: 10px" type="submit" class="btn btn-primary" (click)="action('no')"> Login</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+    <div style="padding-left: 360px">
+        <label>Forgot password</label>
+    </div>
+    <div style="padding-left: 255px; padding-bottom:15px">
+      <label>Don't have an account?</label>
+      <label><b>Sign up</b></label>
+    </div>
+  </form>
+</ng-template>
+<button class="btn btn-outline-primary mb-2 mr-2"  id="signinButton"(click)="openWindowCustomClass(content)">Log In</button>
+

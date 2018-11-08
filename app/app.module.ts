@@ -11,8 +11,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth/auth.service';
+
+//Kien: popup dependencies
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 
 
 
@@ -30,6 +33,10 @@ import { AuthService } from './auth/auth.service';
     HttpClientModule,
     //Kien: for signup comp
     FormsModule,
+    //Kien: for signin popup
+    NgbModule,
+    ReactiveFormsModule,
+    
 
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
