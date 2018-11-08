@@ -4,6 +4,7 @@
 
 import asyncio
 import os
+from typing import Tuple
 
 from aiohttp import web
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -12,14 +13,17 @@ from pathshare_api.controllers import MongoConnection
 from pathshare_api.api import GetEndpoints, PostEndpoints
 
     
-async def init_app() -> web.Application:
+async def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     """
     Initializes web application.
 
     Returns
     -------
+    Tuple[web.Application, AsyncIOMotorClient]
     aiohttp.web.Application
-         An initialized web application.
+         An initialized AIOHTTP web application.
+    motor.motor_asyncio.AsyncIOMotorClient
+        An async connection to the MongoDB Atlas cluster.
     """
     # Initialize fully async database client
     USERNAME = os.environ.get("MONGO_USERNAME")
@@ -45,8 +49,9 @@ async def init_app() -> web.Application:
     # POST routes
     app.router.add_post("/post/user/new", posts.post_new_user)
     app.router.add_post("/post/ride/new", posts.post_new_ride)
-    return app
+    return app, db
 
 
 if __name__ == "__main__":
-    web.run_app(init_app(), port=5002)
+    app, _ = init_app()
+    web.run_app(app, port=5002)
