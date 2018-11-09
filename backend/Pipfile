@@ -15,6 +15,8 @@ motor = "*"
 pymongo = {extras = ["tls"], version = "*"}
 marshmallow = "*"
 cryptography = "*"
+python-dateutil = "*"
+logme = "*"
 
 [dev-packages]
 pytest = "*"
