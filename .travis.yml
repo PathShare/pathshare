@@ -13,13 +13,15 @@ install:
 - pip install pipenv
 - pipenv install --dev
 before_deploy:
-- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
+  CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
 - source /home/travis/google-cloud-sdk/path.bash.inc
 - gcloud --quiet version
 - gcloud --quiet components update
 - gcloud --quiet components install kubectl
 script:
 - pipenv run pytest --cov=./ --show-progress
+- pipenv run coveralls
 env:
   global:
   - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
@@ -35,7 +37,7 @@ env:
   - secure: pYsQl+3azkVbMsBU1MK3HkFKe8AtO8Gi94VqXueK+mOwZ7u1EWG2R+OFqYAEa/h4WP3DNAg8MsntAlYecOBuxCrWuJd82kXu0AU+c/9lWGM4ENTno/q8ApjhBaZp8ljqYEpzig7OrfQiHTkySV+njb2Q/UPYbaRswrOy9S/KuGjkL8r0itWzOY3MTkXdvrB7+loB/jx+nr8NwbdpzXr1SE+N8N0GqoJqeXHvXK/LzbwybLlVUqfeUiSprAr56Ug+P1K2YGNGvS48jpXt58tXFiqBpymr9HPcpkhRzsmsyui92AzP4zKq9uziDhCStrx+482ICIpk7ROfKCMmzsbh8cNFRyeMp4RCd5jUpWXNkVJO656WzJnUmokC2rVwXydqByhfjEA+MaFzuyv9sv0ucH1+ghdVRTQJQ93qL3letFch/h/B4WWa7pXkdxOgPBO4Y7IqGvymEaXyHVsk2B3em4VGLPEb0oIsDQjJpGl9+VTsQMfgWpK+NK4mdvb3UjKzz/w6UmWf190MBgfYS/s6buPC2E8lLSlJD3/+qx0SCb1IhfLXedv6UdYdpySQ1Ti0mToV5QO3N8UrhhEjBdA3ddJsoWLA+F8fEJxISERo3zp3w8r2oIoY5MungiF2Vr0DGgWtcKpncxXBMFd90c0r9E1K8Vjqvgcg2yqeZLtQxiQ=
   - secure: KKIH0ax2NZJwSu5SaEoM3OgU9ipbVa11SecuqH94g50N1YoICh/klifQOBnKQUGuhsekrrLJmppIrOl/K4233O2gLas2YQwPJKesw0I2Bq7f9PB05X8s3Fo+AOOiMvcYRwkLBvOZETh+wsgkO1o/CCZwDBaTR3ftEvbmrJVlBy+E8O0Kzi/7thPDwpItvHCDWdN7dNBff9lW8rsQ+6cfixuX5m4rZFuTT6T3evcJNBcZlN9X64RcsOeLmKv0UJ1ttau50GYynUfxxjcNTKLkYrvyYOVDFjdQ2WR47rchEpSDGVE1ixJZICWpzkFC3735idH2Fpfg+NJ12l+oIak14nSUtRoOAnn2sBaOfafkGVyGnMN5E6fWpmb6cm7IZDJQHgtDzL749UPThk4HwxH0ZH5oHPft6BpBn7A4NJzISSwthD5RPRK9PBL4rOEDxgAP9EjM9PN3ZZm4JIoRqIMa3tUZQ0AjLJwygLS/4LWLuaOvl5dGmEmbPGT2VwbLwjDr/p94/VU98/51qUXqzpAHUtU5ElqsFzQftdXvX2CmXvRJchOM6dPPNucXGhNweo+U6DK3KR2gu5QbCByIm5rh8pUAt7MwWdEBvE2fmVEVueeOYkoBfpbA0uOYcSg/Yv4+SE+/ZNDMcSXMW/aSx/aMoEbXdO2pVWWpET04zvxur+U=
   - secure: hRmp4+H39vbwOCAEzdDM5onjHH10S93nfoLUl4eXy07WGc+hMbk3TcLKgJxkdPLnd6NgWWtOHD9oWh3Lv3E/H+9H3jFIY3bniz2/5scsXS5KkXEg7qGMhth/OvGMXaE/i4vgJLPMjP5qa3/ibWEuqRQyDNNEzqLXZbYXWv39gFOvnvsEMJP/xHhe4rjXG3zlOdyz9bh12XiklF9TmEFBf0q3BCC/6ysJy4fTU1yH/4dnfHwyWzlKR34d1pVvqkVofdCiGrKKQPz8WP10qum2xe7TM6h4BjKqF7xeyT9l/6ZkTr/kMbjSbQ6NBT9ajpwZJKGREhFIdGnUVixM+PxZaPhx5pd0zgPw2FbbEQPHSsZu9Ic1m8fh8U/yE5YdKXaCiqh1xNf23x78657TEzmyC2VF2tUeBlqcByqF6ocqrH2Rpp+Kms9dWMNaCN/RRn9iwD/o/dRU/jVrZcILe0P6sgZv8x0yCv6uFLXku847IEpsMzuIsrdFbxGOnqdMVq52obLsQhGX+gHBjDPAp2BWR6LxjUYa8GgMXX44rCjXNvjd3sEC1Pr3hv1r2EliJEHgdABceRNVbY0lVSbjgQKybMMGYYUfiqvwF9u6KZR8vgFIM+QCPcsx9qvad/EujTCsg+fwiKg1gNVCbUGCPelsnpM5ypqZIwSVu9pXqCp7dts=
-
+  - secure: MupGaqb9NPnuApVMVdD2CpnO16G37Z07NA4VN8jCB2ZQy8QaZD8T62C46+I4Ecwjrmqre2qquvAj2sQ2gmMM6RhIE4SKuMexPRSBFqIwWQEoimOjNmqRNdyl9mo7zWRa6tfL7XVkAmFCnzrFnx3g4TcGekPFVqL/dQouWs2nsI2SpJN+lLY+L65i8CC5LwxiWRWMq91ouuVjYOV3M4m4/pLzUEHw+PPLhxIpcbwnOgXuKTuywYayDYMz1fc3w2h+gEt5IgF/sPTeu1pYMgq717daypXeUlkzRQCn+BGZ/9F/MarP7BQkwAuacVdDXrB+VU7BzRAQV2qZCuIJ/7SCCL1JlTEb6y+L/LOnh1bk0mNAlDOu4SACwbLg1jMjPDheAywsGdHCpM3aMaEeg0lVrlfsgfglEnjbJe1M79JxFV0KuA8YqrMfWgBcrTgD4YuIBmA8Z/XH0hS4nJZMwXpir9xJjSqn1B8OaNMQEl/ccxfioSfKTE89xoj3NHETDg0n2tmrVgN8tyAHOysHlsSdL6cnb+EKR/W8q3Prvc0YFH0zjbVO7njtY/UnUpskV8nqUX4rnsqKhNk6eFpSbYBn9LQTTX+h3M1H93Gna4usOeL5GpA6BJkMpHGRd2+AhiE+wqPoR6HP+WSMlcThLWCyzUsgASP7PjiDaiMmE4t5rdk=
 deploy:
 - provider: script
   script: chmod +x $TRAVIS_BUILD_DIR/backend-deploy-production.sh && sh $TRAVIS_BUILD_DIR/backend-deploy-production.sh
