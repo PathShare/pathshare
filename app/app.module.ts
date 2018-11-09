@@ -15,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth/auth.service';
 
 //Kien: popup dependencies
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
 
 
 
@@ -25,7 +26,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
     AppComponent,
     NavbarComponent,
     SignupComponent,
-    SigninComponent
+    SigninComponent,
+    ShareMyTripComponent
   ],
   imports: [
     BrowserModule,

@@ -1,27 +1,34 @@
 <ng-template #content let-modal>
+
   <div class="modal-header">
     <h4 class="modal-title">Start Your Trip Here</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form>
+
+  <form (ngSubmit)="onSignin(f)" #f="ngForm">
+
     <div class="modal-body">
-        <input matInput type="text" class="form-control" id="" style="margin-bottom: 15px" floatPlaceholder="always" placeholder="Username">
-        <input matInput type="text" class="form-control" id="" placeholder="Password">
+        <input matInput type="email"  id="email" name="email" ngModel class="form-control" style="margin-bottom: 15px" floatPlaceholder="always" placeholder="Email">
+        <input matInput type="password" id="password" name="password" ngModel class="form-control"  placeholder="Password">
     </div>
-    <div class="modal-footer" >
-        <button style="align-content: center; padding-top: 10px" type="submit" class="btn btn-primary" (click)="action('no')"> Login</button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-    </div>
-    <div style="padding-left: 360px">
-        <label>Forgot password</label>
-    </div>
-    <div style="padding-left: 255px; padding-bottom:15px">
-      <label>Don't have an account?</label>
-      <label><b>Sign up</b></label>
+
+    <div class="modal-footer">
+        <button style="align-content: center; padding-top: 10px" type="submit" class="btn btn-primary" [disabled]="!f.valid"> Login</button>
+        <button style="align-content: center; padding-top: 10px" type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
   </form>
+  
+    <!-- <div style="padding-left: 360px">
+          <label class="clickableLab">Forgot password</label>
+    </div> -->
+
+    <div style="padding-left: 255px; padding-bottom:10px">
+      <label>Don't have an account? <a routerLink="/signup"><label class="clickableLab" (click)="modal.close('Close click')"><b>Sign up</b></label></a></label>
+    </div>
+
 </ng-template>
-<button class="btn btn-outline-primary mb-2 mr-2"  id="signinButton"(click)="openWindowCustomClass(content)">Log In</button>
+
+<button class="btn btn-outline-primary mb-2 mr-2"  (click)="openWindowCustomClass(content)">Log In</button>
 
