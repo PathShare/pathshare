@@ -13,24 +13,13 @@ from pathshare_api.utilities import encrypt_password
     
 def test_ride_model() -> None:
     """Test that the Ride schema model is initialized correctly."""
-    # Create a departure location 
-    depature_location = dict(
-        lat="35.000241",
-        long="-106.346231",
-    )
-
-    # Create a destination location
-    destination = dict(
-        lat="33.5873746",
-        long="-101.8754254"
-    )
-
+    
     # Create a ride, use the departure location
     ride = dict(
         riders=[0, 1, 2, 3, 4, 5],
         departure_date=datetime.now(),
-        departure_location=depature_location,
-        destination=destination,
+        departure_location="Lubbock",
+        destination="Houston",
         price_per_seat=20,
         is_active=True,
     )
@@ -47,8 +36,9 @@ def test_ride_model() -> None:
         elif item == "departure_date":
             assert type(result[item]) == str
         elif item == "departure_location":
-            for value in result[item]:
-                assert type(value) == str
+            assert type(item) == str
+        elif item == "destination":
+            assert type(item) == str
         elif item == "price_per_seat":
             assert type(result[item]) == int
         elif item == "is_active":
