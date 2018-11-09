@@ -92,3 +92,47 @@ async def test_user_model() -> None:
             assert type(result[item]) == str
         elif item == "password":
             assert type(result[item]) == dict
+
+def test_ride_02_model() -> None:
+    """Test that the Ride schema model is initialized correctly."""
+    # Create a departure location 
+    depature_location = dict(
+        lat="-106.346231",
+        long="35.000241 ",
+    )
+
+    # Create a destination location
+    destination = dict(
+        lat="-101.8754254",
+        long="33.5873746"
+    )
+
+    # Create a ride, use the departure location
+    ride = dict(
+        riders=[0, 1, 2, 3, 4, 5],
+        departure_date=datetime.now(),
+        departure_location=depature_location,
+        destination=destination,
+        price_per_seat=20,
+        is_active=True,
+    )
+
+    # Initialize a ride_schema
+    ride_schema = Ride()
+    # Dump the ride data into the schema and extract the data
+    result = ride_schema.dump(ride).data
+    
+    # Validate field types were created correctly
+    for item in result:
+        if item == "riders":
+            assert type(result[item]) == list
+        elif item == "departure_date":
+            assert type(result[item]) == str
+        elif item == "departure_location":
+            for value in result[item]:
+                assert type(value) == str
+        elif item == "price_per_seat":
+            assert type(result[item]) == int
+        elif item == "is_active":
+            assert type(result[item]) == bool
+
