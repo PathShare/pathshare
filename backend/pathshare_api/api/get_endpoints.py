@@ -20,8 +20,13 @@ class GetEndpoints(object):
         self.db = db
     
 
-    async def get_ride(request: aiohttp.web_request.Request):
-        raise NotImplementedError
+    async def home(self, request: aiohttp.web_request.Request) -> web.json_response:
+        """Default home route for completeness."""
+        peername = request.transport.get_extra_info("peername")
+        if peername is not None:
+            host, port = peername
+            return web.json_response({"data": f"Hello from the PathShare API - {host}:{port}."}, status=200)
+        return web.json_response({"data": "Hello from the PathShare API."}, status=200)
 
 
     async def get_user(self, request: aiohttp.web_request.Request) -> web.json_response:
