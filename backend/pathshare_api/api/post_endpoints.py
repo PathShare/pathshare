@@ -126,6 +126,10 @@ class PostEndpoints(object):
 
         # Insert the new user into the database
         inserted_result = await self.db.client.users.insert_one(document)
+
+        # Send a validation email on a new thread
+        link = f"{os.environ.get('DOMAIN')}/get/validation?id={inserted_result.inserted_id}&token={document.get('token')}"
+        await send_email(document.get("email"), document.get("name"), link)
         return web.json_response({"success": f"Account successfully created: {inserted_result.inserted_id}."}, status=200)
       
 
