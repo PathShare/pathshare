@@ -7,36 +7,74 @@
 
   <div class="form-group" >
     <label for="name">Name</label>
-    <input type="text" id="name" name="name" ngModel class="form-control" placeholder="i.e. Abraham Lincoln">
+    <input type="text" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" #nameRef="ngModel" required id="name" name="name" ngModel class="form-control" placeholder="i.e. Abraham Lincoln">
+    <div *ngIf="nameRef.errors && (nameRef.dirty || nameRef.touched)" class="alert alert-danger">
+        <div [hidden]="!nameRef.errors.required">
+            Please enter your first and last name
+        </div>
+        <div [hidden]="!nameRef.errors.pattern">
+            Please enter your correct first and last name <p class="alert alert-danger">i.e. Kien Phan</p>
+        </div>
+      </div>
   </div>  
 
   <div class="form-group">
       <label for="major">Major</label>
-      <input type="text" id="major" name="major" ngModel class="form-control" placeholder="i.e. Women's Studies">
+      <input type="text" #majorRef="ngModel" required id="major" name="major" ngModel class="form-control" placeholder="i.e. Women's Studies">
+      <div [hidden]="majorRef.valid || majorRef.untouched" class="alert alert-danger">
+          Please enter your major<p class="alert alert-danger">i.e. Computer Science</p>
+      </div>
   </div> 
 
 
   <div class="form-group">
     <label for="age">Age</label>
-    <input type="number" id="age" name="age" ngModel class="form-control" placeholder="i.e. 21" min="1" max="150">
+    <input type="number" #ageRef="ngModel" required id="age" name="age" ngModel class="form-control" placeholder="i.e. 21" min="1" max="150">
+    <div [hidden]="ageRef.valid || ageRef.untouched" class="alert alert-danger">
+        Please enter your age
+    </div>
 </div> 
 
   <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" id="username" name="username" ngModel class="form-control" placeholder="i.e. abrahamlincoln420">
+      <input type="text" pattern="[^' ']+" #usernameRef="ngModel" required id="username" name="username" ngModel class="form-control" placeholder="i.e. abrahamlincoln420">
+      <div *ngIf="usernameRef.errors && (usernameRef.dirty || usernameRef.touched)" class="alert alert-danger">
+          <div [hidden]="!usernameRef.errors.required">
+              please enter your username
+          </div>
+          <div [hidden]="!usernameRef.errors.pattern">
+              You can not have space in your username<p class="alert alert-danger">i.e. myusername123</p>
+          </div>
+        </div>
   </div>    
-<!-- above info need to be collected -->
+
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" ngModel class="form-control" placeholder="i.e. abraham.lincoln@ttu.edu">
+    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #emailRef="ngModel" required id="email" name="email" ngModel class="form-control" placeholder="i.e. abraham.lincoln@ttu.edu">
     <small id="emailHelp" class="form-text text-muted">please enter email that ends with .edu</small>
+    <div *ngIf="emailRef.errors && (emailRef.dirty || emailRef.touched)" class="alert alert-danger">
+        <div [hidden]="!emailRef.errors.required">
+            please enter your email
+        </div>
+        <div [hidden]="!emailRef.errors.pattern">
+            Please enter email address<p class="alert alert-danger">i.e. myname@college.edu</p>
+        </div>
+      </div>
   </div>
         
   <div class="form-group">
     <label for="Password">Password</label>
-    <input type="password" id="password" name="password" ngModel class="form-control" placeholder="i.e. Password123">
+    <input type="password" minlength="9" #passwordRef="ngModel" required id="password" name="password" ngModel class="form-control" placeholder="i.e. Password123">
+    <div *ngIf="passwordRef.errors && (passwordRef.dirty || passwordRef.touched)" class="alert alert-danger">
+        <div [hidden]="!passwordRef.errors.required">
+            please enter a password
+        </div>
+        <div [hidden]="!passwordRef.errors.minlength">
+            your password must have at least 9 characters
+        </div>
+      </div>
   </div>
         
-  <button class="btn btn-primary" type="submit">Sign Up</button>
+  <button [disabled]="!userForm.form.valid" class="btn btn-primary" type="submit">Sign Up</button>
         
 </form>
