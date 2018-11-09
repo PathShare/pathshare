@@ -76,5 +76,37 @@ class GetEndpoints(object):
         return web.json_response({"data": data}, status=200)
 
 
-    async def get_validation(request: aiohttp.web_request.Request):
-        raise NotImplementedError
+    async def get_validation(self, request: aiohttp.web_request.Request) -> web.json_response:
+        """Verify a user based on the URL sent to their inbox on account creation.
+
+        Parameters
+        -----------
+        aiohttp.web_request.Request
+            A request to the endpoint made by the frontend web client.
+
+        Returns
+        --------
+        aiohttp.web.json_response
+        Two types of JSON responses.
+            The first occurs when an argument is missing (id or token). (Status 417 => Expectation Failed)
+            The second occurs when verification is successful. (Status 200 => OK)
+        """
+        _id = request.rel_url.query.get("id", None)
+        if _id is None:
+            return web.json_response({"error": "Please provide a user ID as a request argument. (key=id)"}, status=417)
+        
+        token = request.rel_url.query.get("token", None)
+        if token is None:
+            return web.json_response({"error": "Please provide a verification token as a request argument (key=token)."}, status=417)
+        
+        # Try to find a user with id _id
+        user_id = ObjectId(_id)
+        data = await self.db.client.users.find_one({"_id": user_id})
+        if not data:
+            return web.json_response({"error": f"There are no user with ID: {_id}."}, status=417)
+
+        # If the tokens are the same, update the document
+        if token == data["token"]:
+            await self.db.client.users.find_one_and_update({"_id": user_id}, {"$set": {"is_validated": True}})
+            return web.json_response({"success": "Account successfully validated."}, status=200)
+        return web.json_response({"error": "Tokens do not match."}, status=417)
