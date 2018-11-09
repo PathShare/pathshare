@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
 
 from datetime import datetime
 from uuid import uuid4
@@ -9,9 +10,10 @@ import aiohttp
 
 from aiohttp import web
 from bson.objectid import ObjectId
+from dateutil.parser import parse as parse_date
 
 from pathshare_api.models import Ride, User
-from pathshare_api.utilities import encrypt_password
+from pathshare_api.utilities import encrypt_password, send_email
 
 
 class PostEndpoints(object):
@@ -27,6 +29,8 @@ class PostEndpoints(object):
     content-type header key must always have value `application/json`
 
     Sample request (raw JSON w/ content-type of application/json) to /post/user/new using Postman:
+    (If this test data returns a 422 response, check the database; there is a chance there is already
+    an account with the same email.)
     {
         "name": "simon",
         "major": "Computer Science",
@@ -37,20 +41,14 @@ class PostEndpoints(object):
     }
 
     Sample request (raw JSON w/ content-type of application/json) to /post/ride/new using Postman:
+    (Set the ObjectIds in the riders array to some user's ObjectId in the database.)
     {
         "riders": [
-            "5bc55ee9dfd3e35138e256e1",
-		    "5bdea23cdfd3e33ea4d51a50"
+            "5be52a64dfd3e35fac9fc298"
         ],
-        "departure_date": "Dec 2 2018 4:20PM",
-        "departure_location": [	
-            "33.587502",
-            "-101.8704613"
-        ],
-        "destination": [
-            "33.5873746", 
-            "-101.8754254"
-        ],
+        "departure_date": "Dec 2 2018",
+        "departure_location": "Lubbock",
+        "destination": "Houston",
         "price_per_seat": 5.00
     }
 
@@ -117,7 +115,7 @@ class PostEndpoints(object):
             major=data.get("major"),
             age=data.get("age"),
             token=uuid4().hex,
-            is_validates=False,
+            is_validated=False,
             username=data.get("username"),
             email=data.get("email"),
             password=password,
@@ -125,8 +123,12 @@ class PostEndpoints(object):
         document = user_schema.dump(document).data
 
         # Insert the new user into the database
-        await self.db.client.users.insert_one(document)
-        return web.json_response({"success": f"Account successfully created."}, status=200)
+        inserted_result = await self.db.client.users.insert_one(document)
+
+        # Send a validation email on a new thread
+        link = f"{os.environ.get('DOMAIN')}/get/validation?id={inserted_result.inserted_id}&token={document.get('token')}"
+        await send_email(document.get("email"), document.get("name"), link)
+        return web.json_response({"success": f"Account successfully created: {inserted_result.inserted_id}."}, status=200)
       
 
     async def post_new_ride(self, request: aiohttp.web_request.Request) -> web.json_response:
@@ -185,7 +187,7 @@ class PostEndpoints(object):
         ride_schema = Ride()
         document = dict(
             riders=riders,
-            departure_date=datetime.strptime(data.get("departure_date"), "%b %d %Y %I:%M%p"),
+            departure_date=parse_date(data.get("departure_date")),
             price_per_seat=data.get("price_per_seat"),
             departure_location=data.get("departure_location"),
             destination=data.get("destination"),
@@ -195,5 +197,4 @@ class PostEndpoints(object):
 
         # Insert the new ride into the database
         await self.db.client.rides.insert_one(document)
-        return web.json_response({"success": f"Account ride successfully added."}, status=200)
-        
+        return web.json_response({"success": f"Ride successfully added."}, status=200)
