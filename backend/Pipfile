@@ -17,6 +17,7 @@ marshmallow = "*"
 cryptography = "*"
 python-dateutil = "*"
 logme = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pytest = "*"
