@@ -38,7 +38,7 @@ env:
 
 deploy:
 - provider: script
-  script: "./backend-deploy-production.sh"
+  script: chmod +x $TRAVIS_BUILD_DIR/backend-deploy-production.sh && sh $TRAVIS_BUILD_DIR/backend-deploy-production.sh
   skip_cleanup: true
   on:
     branch: master
