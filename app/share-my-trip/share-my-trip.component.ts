@@ -1,5 +1,6 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ShareMyTripService } from './share-my-trip.service';
 
 
 
@@ -10,19 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShareMyTripComponent implements OnInit {
 
-  constructor() { }
+  constructor(private shareMyTripService:ShareMyTripService) { }
 
   ngOnInit() {
   }
 
-  onSignup(form: NgForm) {
+  today = new Date().toJSON().split('T')[0];
+
+  onShare(form: NgForm) {
     const startingLocation = form.value.startingLocation;
     const destinationLocation = form.value.destinationLocation;
     const inputDate = form.value.inputDate;
     const numOfSeats = form.value.numOfSeats;
     const price = form.value.price;
 
-    // this.authService.signupUser(name,major,age,username,email,password); something like this for sharetripservice?
+    this.shareMyTripService.shareMyTrip(startingLocation,destinationLocation,inputDate,numOfSeats,price)
+    
   }
-
 }

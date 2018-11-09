@@ -13,6 +13,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth/auth.service';
+import { ShareMyTripService } from './share-my-trip/share-my-trip.service';
 
 //Kien: popup dependencies
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -38,7 +39,7 @@ import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
     //Kien: for signin popup
     NgbModule,
     ReactiveFormsModule,
-    
+
 
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
@@ -50,7 +51,7 @@ import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
 
     AppRoutingModule
   ],
-  providers: [AuthService],
+  providers: [AuthService,ShareMyTripService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

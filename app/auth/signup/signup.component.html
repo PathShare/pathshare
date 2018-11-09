@@ -1,9 +1,11 @@
 
+<div class="title">
+    <h2 >Please fill in your information</h2>
+</div>
 
+<form (ngSubmit)="onSignup(userForm)" #userForm="ngForm">
 
-<form (ngSubmit)="onSignup(f)" #f="ngForm">
-
-  <div class="form-group">
+  <div class="form-group" >
     <label for="name">Name</label>
     <input type="text" id="name" name="name" ngModel class="form-control" placeholder="i.e. Abraham Lincoln">
   </div>  
@@ -25,8 +27,9 @@
   </div>    
 <!-- above info need to be collected -->
   <div class="form-group">
-    <label for="email">Email                           <span style="font-size:85%"><i>only .edu</i></span></label>
+    <label for="email">Email</label>
     <input type="email" id="email" name="email" ngModel class="form-control" placeholder="i.e. abraham.lincoln@ttu.edu">
+    <small id="emailHelp" class="form-text text-muted">please enter email that ends with .edu</small>
   </div>
         
   <div class="form-group">
@@ -37,6 +40,3 @@
   <button class="btn btn-primary" type="submit">Sign Up</button>
         
 </form>
-
-
-

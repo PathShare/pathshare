@@ -8,11 +8,14 @@ body {
     
 }
 
-form {
+ form {
     font-family: 'Nunito', sans-serif;
     width: 350px;
     margin: 0 auto;
     padding-bottom: 25px;
     padding-top: 5px;
-}
+} 
 
+.title {
+    text-align: center;
+}

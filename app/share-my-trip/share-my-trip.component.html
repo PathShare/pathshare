@@ -1,35 +1,59 @@
+<div class="title">
+    <h2 >Please fill in your trip information</h2>
+</div>
 
-<form (ngSubmit)="onSignup(f)" #f="ngForm">
+<form #userForm="ngForm" (ngSubmit)="onShare(userForm)" >
 
     <div class="form-group">
       <label for="startingLocation">Starting Location</label>
-      <input type="text" id="startingLocation" name="startingLocation" ngModel class="form-control" placeholder="i.e. Lubbock, Texas">
+      <input type="text" pattern = "([A-Za-z]+(?: [A-Za-z]+)*),? ([A-Za-z]{2})" #startingLocationRef="ngModel" required id="startingLocation" name="startingLocation" ngModel class="form-control" placeholder="i.e. Lubbock, TX">
+      <div *ngIf="startingLocationRef.errors && (startingLocationRef.dirty || startingLocationRef.touched)" class="alert alert-danger">
+          <div [hidden]="!startingLocationRef.errors.required">
+              please enter starting location
+          </div>
+          <div [hidden]="!startingLocationRef.errors.pattern">
+              Please make sure you enter something like<p class="alert alert-danger">Lubbock, TX</p>
+          </div>
+      </div>
     </div> 
 
     <div class="form-group">
         <label for="destinationLocation">Destination Location</label>
-        <input type="text" id="destinationLocation" name="destinationLocation" ngModel class="form-control" placeholder="i.e. Houston, Texas">
+        <input type="text" pattern = "([A-Za-z]+(?: [A-Za-z]+)*),? ([A-Za-z]{2})" #destinationLocationRef="ngModel" required  id="destinationLocation" name="destinationLocation" ngModel class="form-control" placeholder="i.e. Houston, Texas">
+        <div *ngIf="destinationLocationRef.errors && (destinationLocationRef.dirty || destinationLocationRef.touched)" class="alert alert-danger">
+            <div [hidden]="!destinationLocationRef.errors.required">
+                please enter destination location
+            </div>
+            <div [hidden]="!destinationLocationRef.errors.pattern">
+                Please make sure you enter something like<p class="alert alert-danger">Amarillo, TX</p>
+            </div>
+          </div>
       </div> 
 
       <div class="form-group">
-          <label for="inputDate">Starting Date</label>
-          <input type="date" id="inputDate" name="inputDate" ngModel class="form-control"  placeholder="Date">
+          <label for="inputDate">Departing Date</label>
+          <input type="date" #inputDateRef="ngModel" required id="inputDate" name="inputDate" ngModel class="form-control"  placeholder="Date">
+          <div [hidden]="inputDateRef.valid || inputDateRef.untouched" class="alert alert-danger">
+              Please enter your departing date
+          </div>
       </div>
 
       <div class="form-group">
           <label for="numOfSeats">Number of available seats</label>
-          <input type="number" id="numOfSeats" name="numOfSeats" ngModel class="form-control" placeholder="i.e. 2" min="1" max="30">
+          <input type="number" #numOfSeatsRef="ngModel" required id="numOfSeats" name="numOfSeats" ngModel class="form-control" placeholder="i.e. 2" min="1" max="30">
+              <div [hidden]="numOfSeatsRef.valid || numOfSeatsRef.untouched" class="alert alert-danger">
+                  please enter the number of seats available
+              </div>
       </div> 
 
       <div class="form-group">
           <label for="price">Price per passenger $</label>
-          <input type="number" id="price" name="price" ngModel class="form-control" placeholder="i.e. $54.99" min="0.01" step="0.01">
+          <input type="number" #priceRef="ngModel" required id="price" name="price" ngModel class="form-control" placeholder="i.e. $54.99" min="0.01" step="0.01">
+          <div [hidden]="priceRef.valid || priceRef.untouched" class="alert alert-danger">
+              Please enter the price for one passenger
+          </div>
       </div>
-          
-    <button class="btn btn-primary" type="submit">Share</button>
-          
+      
+    <button [disabled]="!userForm.form.valid" class="btn btn-primary" type="submit">Share</button>
+
   </form>
-  
-  
-  
-  
