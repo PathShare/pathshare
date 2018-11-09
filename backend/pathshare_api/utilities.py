@@ -94,3 +94,46 @@ async def decrypt_password(password_data: dict) -> str:
 
     # Decrypt and return the password
     return f.decrypt(bytes(password_data.get("password").encode("utf-8"))).decode("ascii")
+
+body = """
+Hello {name},
+Thank you for signing up for PathShare.
+
+Please click the link below to verify your account.
+
+Verification link: {link}
+
+Sincerely,
+The PathShare Team
+"""
+
+
+@logme.log
+async def send_email(email: str, name: str, link: str, logger=None) -> None:
+	"""Send an email to the prospective customer.
+	Parameters
+	----------
+	email : str
+		The email that was submitted.
+	name : str
+		The first name of the person who just registered.
+	link : str
+		The verification url for the person that just registered.
+	logger : logme.LogmeLogger
+		Logger instance injected by the logme module.
+	""" 
+	from_address = os.environ.get("EMAIL_USER")
+	try:
+		msg = MIMEMultipart()
+		msg["From"] = from_address
+		msg["To"] = email
+		msg["Subject"] = "PathShare Email Verification"
+		msg.attach(MIMEText(body.format(name=name.capitalize(), link=link), "plain"))
+		server = smtplib.SMTP("smtp.gmail.com", 587)
+		server.starttls()
+		server.login(from_address, os.environ.get("EMAIL_PASS"))
+		server.sendmail(from_address, [from_address, email], msg.as_string())
+		server.quit()
+	except Exception as e:
+		logger.debug("An error occured when trying to send an email.")
+		logger.exception(e)
