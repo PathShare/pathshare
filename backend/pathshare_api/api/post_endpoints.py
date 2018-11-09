@@ -185,7 +185,7 @@ class PostEndpoints(object):
         ride_schema = Ride()
         document = dict(
             riders=riders,
-            departure_date=datetime.strptime(data.get("departure_date"), "%b %d %Y %I:%M%p"),
+            departure_date=parse_date(data.get("departure_date")),
             price_per_seat=data.get("price_per_seat"),
             departure_location=data.get("departure_location"),
             destination=data.get("destination"),
