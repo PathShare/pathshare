@@ -12,10 +12,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pathshare_api.controllers import MongoConnection
 from pathshare_api.api import GetEndpoints, PostEndpoints
 
-    
-async def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
+
+def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     """
-    Initializes web application.
+    Initializes the web application.
 
     Returns
     -------

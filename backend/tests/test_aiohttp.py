@@ -22,18 +22,19 @@ async def test_new_user(aiohttp_client, loop):
 	"""
 
 	# Create an instance of the application and a connection to the database
-	app, db = await init_app()
+	app, db = init_app()
 
 	# Create a new, injected aiohttp_client fixture using the app
 	client = await aiohttp_client(app)
 
 	# Define the data used for the application
+	# Go to https://www.mailinator.com/v3/index.jsp?zone=public&query=testing#/#inboxpane to view the test email
 	data = {
-		"name": "simon",
+		"name": "testing",
 		"major": "Computer Science",
 		"age": 21,
-		"username": "swoldemi",
-		"email": "simon.woldemichael@ttu.edu",
+		"username": "testing",
+		"email": "testing@mailinator.com", 
 		"password": "hello"
 	}
 
