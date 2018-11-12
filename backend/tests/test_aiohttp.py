@@ -93,3 +93,80 @@ async def test_get_home(aiohttp_client, loop):
 	
 	# Assert everything went as expected
 	assert resp.status == 200
+
+async def test_get_ride(aiohttp_client, loop):
+	"""Test all return cases of GetEnpoint.get_ride.
+	
+	See Also
+	--------
+	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
+	"""
+
+	# Create an instance of the application and a connection to the database
+	app, db = init_app()
+
+	# Create a new, injected aiohttp_client fixture using the app
+	client = await aiohttp_client(app)
+
+	# Define the data used for the application
+	# Go to https://www.mailinator.com/v3/index.jsp?zone=public&query=testing#/#inboxpane to view the test email
+
+	#Test - All data keys are present
+	data = {
+		"dest": "Houston",
+		"date": ""
+	}
+
+	# Set headers
+	headers = {
+		"content-type": "application/json",
+	}
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/ride", data=dumps(data), headers=headers)
+
+	# Assert everything went as expected, response status should be 200 if destination is included, or
+	# 404 if destiantion is not found in the database
+	assert (resp.status == 200) or (resp.status == 404)
+	result = await resp.json()
+
+	# Check if response is an error
+	if "error" in result.keys():
+		assert "error" in result.keys()
+		assert f"There are no rides in the database that match destination = {data["dest"]}." in result["error"]
+	
+	#Check if destination is included on json response
+	assert "data" in result.keys()
+	assert "destination" in result["data"].keys()
+	assert result["data"]["destination"] == data["dest"]
+
+	#Test - Data Key "dest" is missing
+	data = {
+		"date": ""
+	}
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/ride", data=dumps(data), headers=headers)
+	# Assert everything went as expected
+	assert resp.status == 417
+
+	#Test - Data Key "date" is missing
+	data = {
+		"dest": ""
+	}
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/ride", data=dumps(data), headers=headers)
+	# Assert everything went as expected
+	assert resp.status == 417
+
+	#Test - Both data keys are missing, empty get request
+	data = {
+		"": ""
+	}
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/ride", data=dumps(data), headers=headers)
+	# Assert everything went as expected
+	assert resp.status == 417
+
