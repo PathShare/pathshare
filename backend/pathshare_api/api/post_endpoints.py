@@ -57,7 +57,6 @@ class PostEndpoints(object):
     https://motor.readthedocs.io/en/stable/api-tornado/motor_collection.html?highlight=aggregate#motor.motor_tornado.MotorCollection.aggregate
     https://httpie.org/doc#non-string-json-fields
     """
-
     def __init__(self, db):
         self.db = db
     

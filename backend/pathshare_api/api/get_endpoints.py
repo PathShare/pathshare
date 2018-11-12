@@ -87,7 +87,12 @@ class GetEndpoints(object):
         _id = request.rel_url.query.get("id", None)
         if _id is None:
             return web.json_response({"error": "Please provide a user ID as a request argument (key=id)."}, status=417)
-        user_id = ObjectId(_id)
+
+        try:
+            user_id = ObjectId(_id)
+        except Exception as e:
+            return web.json_response({"error": f"User ID {user_id} is not valid. Exception: {e}"}, status=417)
+
         data = await self.db.client.users.find_one({"_id": user_id})
         if not data:
             return web.json_response({"error": f"There are no user with ID: {_id}."}, status=417)
