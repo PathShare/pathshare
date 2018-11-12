@@ -10,7 +10,7 @@ from aiohttp import web
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from pathshare_api.controllers import MongoConnection
-from pathshare_api.api import GetEndpoints, PostEndpoints, PatchEndpoints
+from pathshare_api.api import DeleteEndpoints, GetEndpoints, PatchEndpoints, PostEndpoints
 
 
 def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
@@ -39,8 +39,11 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     gets = GetEndpoints(db)
     posts = PostEndpoints(db)
     patches = PatchEndpoints(db)
-
+    deletes = DeleteEndpoints(db)
+    
     # Add routes to application
+
+    # GET routes
     app.router.add_get("/", gets.home) # Default home
     app.router.add_get("/get/ride", gets.get_ride)
     app.router.add_get("/get/user", gets.get_user)
@@ -54,6 +57,10 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     # PATCH routes
     app.router.add_patch("/patch/ride/{ride_id}/add/rider/{rider_id}", patches.add_rider)
     app.router.add_patch("/patch/ride/{ride_id}/delete/rider/{rider_id}", patches.remove_rider)
+
+    # DELETE routes
+    app.router.add_delete("/delete/user", deletes.delete_user)
+    app.router.add_delete("/delete/ride", deletes.delete_ride)
 
     return app, db
 
