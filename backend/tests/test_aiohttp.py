@@ -72,3 +72,24 @@ async def test_new_user(aiohttp_client, loop):
 	# Remove the test document from the database, ensure pymongo.results.DeleteResult returns ack
 	deletion_result = await db.client.users.delete_one({"_id": ObjectId(user_id)})
 	assert deletion_result.acknowledged
+
+# GETEndpoints UNIT Tests:
+async def test_get_home(aiohttp_client, loop):
+	"""Test if home status is 200
+	
+	See Also
+	--------
+	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
+	"""
+
+	# Create an instance of the application and a connection to the database
+	app, db = init_app()
+
+	# Create a new, injected aiohttp_client fixture using the app
+	client = await aiohttp_client(app)
+
+	# GET request to home endpoint
+	resp = await client.get("/")
+	
+	# Assert everything went as expected
+	assert resp.status == 200
