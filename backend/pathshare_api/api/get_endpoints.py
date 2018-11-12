@@ -91,7 +91,7 @@ class GetEndpoints(object):
         try:
             user_id = ObjectId(_id)
         except Exception as e:
-            return web.json_response({"error": f"User ID {user_id} is not valid. Exception: {e}"}, status=417)
+            return web.json_response({"error": f"User ID {_id} is not valid. Exception: {e}"}, status=417)
 
         data = await self.db.client.users.find_one({"_id": user_id})
         if not data:

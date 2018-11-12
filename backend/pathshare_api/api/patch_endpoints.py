@@ -41,7 +41,7 @@ class PatchEndpoints(object):
             The first occurs when a ride does not exist or is in an invalid format. (Status 417 => Expectation Failed)
             The second occurs when a rider not exist or is in an invalid format. (Status 417 => Expectation Failed)
             The third occurs when a rider is already a member of a particular ride. (Status 417 => Expectation Failed)
-            The four occurs when PUT request was successful. (Status 200 => OK)
+            The fourth occurs when PUT request was successful. (Status 200 => OK)
         """
         ride_id = request.match_info.get("ride_id", None)
         rider_id = request.match_info.get("rider_id", None)

@@ -81,7 +81,7 @@ class DeleteEndpoints(object):
         try:
             ride_id = ObjectId(_id)
         except Exception as e:
-            return web.json_response({"error": f"Ride ID '{_id}' is not valid. Exception: {e}"}, status=417)
+            return web.json_response({"error": f"Ride ID {_id} is not valid. Exception: {e}"}, status=417)
       
         user = await self.db.client.rides.find_one({"_id": ride_id})
         if not user:
