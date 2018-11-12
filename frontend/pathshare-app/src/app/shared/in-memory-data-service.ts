@@ -5,8 +5,12 @@ import { Ride } from './model/ride';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const rides = [
-      { id: 1, departureDate: new Date(), seatPrice: 20, departureLocation: {latitude: 33.5779, longitude: -101.8552},
-        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true}
+      { id: 1, departureDate: '2018-11-12', seatPrice: 20, departureLocation: {latitude: 33.5779, longitude: -101.8552},
+        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true, departure: 'Lubbock', destination: 'Dallas'
+      },
+      { id: 2, departureDate: '2018-11-12', seatPrice: 30, departureLocation: {latitude: 33.5779, longitude: -101.8552},
+        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true, departure: 'Lubbock', destination: 'Dallas'
+      }
     ];
     return {rides};
   }

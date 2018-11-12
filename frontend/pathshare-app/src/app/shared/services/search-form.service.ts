@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 
+
+/**
+ * @description passes search form information between search and listings component.
+ */
 @Injectable({
   providedIn: 'root'
 })
