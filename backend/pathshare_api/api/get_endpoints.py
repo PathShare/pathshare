@@ -55,11 +55,10 @@ class GetEndpoints(object):
         if dest is None:
             return web.json_response({"error": "Please provide a destination as a request argument (key=dest)."}, status=417)
         
-        """
         date = request.rel_url.query.get("date", None)
         if date is None:
             return web.json_response({"error": "Please provide a date as a request argument (key=date)."}, status=417)
-        """
+        
         data = []
         async for ride in self.db.client.rides.find({"destination": dest}):
             ride["_id"] = str(ride.get("_id"))
