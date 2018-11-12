@@ -89,7 +89,7 @@ class GetEndpoints(object):
         user_id = ObjectId(_id)
         data = await self.db.client.users.find_one({"_id": user_id})
         if not data:
-            return web.json_response({"error": f"There are no user with ID: {_id}."}, status=417)
+            return web.json_response({"error": f"There are no user with ID: {_id}."}, status=404)
         data.pop("_id") # Remove redundant _id
         data["password"] = await decrypt_password(data.pop("password")) # Update password key with decrypted password
         return web.json_response({"data": data}, status=200)
