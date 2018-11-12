@@ -73,7 +73,6 @@ async def test_new_user(aiohttp_client, loop):
 	deletion_result = await db.client.users.delete_one({"_id": ObjectId(user_id)})
 	assert deletion_result.acknowledged
 
-# GETEndpoints UNIT Tests:
 async def test_get_home(aiohttp_client, loop):
 	"""Test if home status is 200
 	
@@ -134,11 +133,11 @@ async def test_get_ride(aiohttp_client, loop):
 	if "error" in result.keys():
 		assert "error" in result.keys()
 		assert f"There are no rides in the database that match destination = {data["dest"]}." in result["error"]
-	
-	#Check if destination is included on json response
-	assert "data" in result.keys()
-	assert "destination" in result["data"].keys()
-	assert result["data"]["destination"] == data["dest"]
+	else:
+		#Check if destination is included on json response
+		assert "data" in result.keys()
+		assert "destination" in result["data"].keys()
+		assert result["data"]["destination"] == data["dest"]
 
 	#Test - Data Key "dest" is missing
 	data = {
@@ -170,3 +169,55 @@ async def test_get_ride(aiohttp_client, loop):
 	# Assert everything went as expected
 	assert resp.status == 417
 
+async def test_get_user(aiohttp_client, loop):
+	"""Test all return cases of GetEnpoint.get_user.
+	
+	See Also
+	--------
+	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
+	"""
+
+	# Create an instance of the application and a connection to the database
+	app, db = init_app()
+
+	# Create a new, injected aiohttp_client fixture using the app
+	client = await aiohttp_client(app)
+
+	#Test - All data keys are present
+	data = {
+		"id": "5be52a64dfd3e35fac9fc298"
+	}
+
+	# Set headers
+	headers = {
+		"content-type": "application/json",
+	}
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/user", data=dumps(data), headers=headers)
+	result = await resp.json()
+
+	assert (resp.status == 200) or (resp.status == 404)
+	if 'error' in result.keys():
+		assert resp.status == 404
+	else:
+		assert "data" in result.keys()
+		assert resp.status == 200
+	
+	#Test - All data keys are present
+	data = {
+		"" : ""
+	}
+
+	# Set headers
+	headers = {
+		"content-type": "application/json",
+	}
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/user", data=dumps(data), headers=headers)
+	result = await resp.json()
+
+	assert resp.status == 417
+	assert "error" in result.keys()
+	assert "Please provide a user ID as a request argument (key=id)." == result["error"]
