@@ -221,3 +221,27 @@ async def test_get_user(aiohttp_client, loop):
 	assert resp.status == 417
 	assert "error" in result.keys()
 	assert "Please provide a user ID as a request argument (key=id)." == result["error"]
+
+async def test_get_all_rides(aiohttp_client, loop):
+	"""Test all return cases of GetEnpoint.get_all_rides.
+	
+	See Also
+	--------
+	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
+	"""
+
+	# Create an instance of the application and a connection to the database
+	app, db = init_app()
+
+	# Create a new, injected aiohttp_client fixture using the app
+	client = await aiohttp_client(app)
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/ride/all")
+	result = await resp.json()
+
+	if "error" in result.keys():
+		assert resp.status == 404
+		return
+	assert resp.status == 200
+
