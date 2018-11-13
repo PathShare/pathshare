@@ -3,7 +3,7 @@
     <h2 >Please fill in your information</h2>
 </div>
 
-<form (ngSubmit)="onSignup(userForm)" #userForm="ngForm">
+<form (ngSubmit)="onSignup(userForm)" #userForm="ngForm" enctype='application/json'>
 
   <div class="form-group" >
     <label for="name">Name</label>
