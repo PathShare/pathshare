@@ -1,0 +1,6 @@
+example {
+    border: 10px dotted black;
+    padding: 15px;
+    background: lightblue;
+    background-clip: border-box;    
+}

@@ -1,0 +1,17 @@
+label {
+    color: #fff;
+}
+
+body {
+    margin: 0;
+    padding:0;
+    
+}
+
+form {
+    font-family: 'Nunito', sans-serif;
+    width: 350px;
+    margin: 0 auto;
+    padding-bottom: 25px;
+    padding-top: 5px;
+}

@@ -1,0 +1,42 @@
+
+
+
+<form (ngSubmit)="onSignup(f)" #f="ngForm">
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" ngModel class="form-control" placeholder="i.e. Abraham Lincoln">
+  </div>  
+
+  <div class="form-group">
+      <label for="major">Major</label>
+      <input type="text" id="major" name="major" ngModel class="form-control" placeholder="i.e. Women's Studies">
+  </div> 
+
+
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" ngModel class="form-control" placeholder="i.e. 21" min="1" max="150">
+</div> 
+
+  <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" ngModel class="form-control" placeholder="i.e. abrahamlincoln420">
+  </div>    
+<!-- above info need to be collected -->
+  <div class="form-group">
+    <label for="email">Email                           <span style="font-size:85%"><i>only .edu</i></span></label>
+    <input type="email" id="email" name="email" ngModel class="form-control" placeholder="i.e. abraham.lincoln@ttu.edu">
+  </div>
+        
+  <div class="form-group">
+    <label for="Password">Password</label>
+    <input type="password" id="password" name="password" ngModel class="form-control" placeholder="i.e. Password123">
+  </div>
+        
+  <button class="btn btn-primary" type="submit">Sign Up</button>
+        
+</form>
+
+
+

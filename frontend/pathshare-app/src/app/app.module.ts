@@ -4,29 +4,49 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { TripSearchModule } from './trip-search/trip-search.module';
-
+import { MatCardModule } from '@angular/material';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './shared/in-memory-data-service';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { SignupComponent } from './auth/signup/signup.component';
+import { SigninComponent } from './auth/signin/signin.component';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from './auth/auth.service';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
+
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    SignupComponent,
+    SigninComponent,
+    ViewProfileComponent
   ],
   imports: [
     BrowserModule,
     TripSearchModule,
     HttpClientModule,
+    //Kien: for signup comp
+    FormsModule,
+    MatCardModule ,
+
+
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
+
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
