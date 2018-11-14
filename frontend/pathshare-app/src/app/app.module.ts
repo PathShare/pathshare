@@ -14,6 +14,7 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './auth/auth.service';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 
 
@@ -25,7 +26,8 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
     NavbarComponent,
     SignupComponent,
     SigninComponent,
-    ViewProfileComponent
+    ViewProfileComponent,
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,
