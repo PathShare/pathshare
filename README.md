@@ -2,8 +2,9 @@
 
 ### Build Status
 [![Build Status](https://travis-ci.org/PathShare/pathshare.svg?branch=master)](https://travis-ci.org/PathShare/pathshare)
+[![Coverage Status](https://coveralls.io/repos/github/PathShare/pathshare/badge.svg?branch=master)](https://coveralls.io/github/PathShare/pathshare?branch=master)
 
-Source code for the PathShare college ride sharing platform. Course project for CS 4365 - Software Engineering 1 at Texas Tech University.
+Source code for the PathShare college ride sharing platform. Course project for CS 4365 - Software Engineering 2 at Texas Tech University.
 
 ### Group Members
   - Scott Blechman
