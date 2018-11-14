@@ -25,6 +25,9 @@ export class RideListingsComponent implements OnInit {
     this.searchService.getRides(this.parameters['start'], this.parameters['end'],
     this.parameters['date']).subscribe(rides => {
       this.rides = rides;
+      rides.forEach(ride => {
+        console.log(ride);
+      });
     });
   }
 

@@ -6,10 +6,12 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const rides = [
       { id: 1, departureDate: '2018-11-12', seatPrice: 20, departureLocation: {latitude: 33.5779, longitude: -101.8552},
-        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true, departure: 'Lubbock', destination: 'Dallas'
+        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true, departure: 'Lubbock', destination: 'Dallas',
+        riders: [ {id: 1, name: 'John', major: 'Computer Science', age: 19} ]
       },
       { id: 2, departureDate: '2018-11-12', seatPrice: 30, departureLocation: {latitude: 33.5779, longitude: -101.8552},
-        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true, departure: 'Lubbock', destination: 'Dallas'
+        destinationLocation: {latitude: 32.7767, longitude: -96.7970}, active: true, departure: 'Lubbock', destination: 'Dallas',
+        riders: [{id: 1, name: 'Jane', major: 'Physics', age: 20}]
       }
     ];
     return {rides};
