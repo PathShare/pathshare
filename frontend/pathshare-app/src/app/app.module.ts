@@ -9,17 +9,17 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './shared/in-memory-data-service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { RideListingsComponent } from './ride-listings/ride-listings.component';
+import { RideListingsModule } from './ride-listings/ride-listings.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    RideListingsComponent
   ],
   imports: [
     BrowserModule,
     TripSearchModule,
+    RideListingsModule,
     HttpClientModule,
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
