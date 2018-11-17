@@ -20,7 +20,6 @@ async def test_new_user(aiohttp_client, loop):
 	--------
 	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
 	"""
-
 	# Create an instance of the application and a connection to the database
 	app, db = init_app()
 
