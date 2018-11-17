@@ -18,6 +18,7 @@ cryptography = "*"
 python-dateutil = "*"
 logme = "*"
 python-dotenv = "*"
+aiohttp-cors = "*"
 
 [dev-packages]
 pytest = "*"
