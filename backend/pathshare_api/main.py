@@ -6,6 +6,8 @@ import asyncio
 import os
 from typing import Tuple
 
+import aiohttp_cors
+
 from aiohttp import web
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -33,6 +35,7 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     
     # Initialize application and database
     app = web.Application()
+    cors = aiohttp_cors.setup(app)
     db = MongoConnection(client)
     
     # Initialize endpoint classes
@@ -41,8 +44,7 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     patches = PatchEndpoints(db)
     deletes = DeleteEndpoints(db)
     
-    # Add routes to application
-
+    # Add routes to application with CORS enabled
     # GET routes
     app.router.add_get("/", gets.home) # Default home
     app.router.add_get("/get/ride", gets.get_ride)
@@ -51,8 +53,27 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     app.router.add_get("/get/validation", gets.get_validation)
     
     # POST routes
-    app.router.add_post("/post/user/new", posts.post_new_user)
-    app.router.add_post("/post/ride/new", posts.post_new_ride)
+    new_user_resource = cors.add(app.router.add_resource("/post/user/new"))
+    new_user_route = cors.add(
+        new_user_resource.add_route("POST", posts.post_new_user), {
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers=("X-PathShare-PostEndpoint",),
+            allow_headers=("X-Requested-With", "Content-Type"),
+            max_age=3600,
+        )
+    })
+
+    new_ride_resource = cors.add(app.router.add_resource("/post/ride/new"))
+    new_ride_route = cors.add(
+        new_ride_resource.add_route("POST", posts.post_new_ride), {
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers=("X-PathShare-PostEndpoint",),
+            allow_headers=("X-Requested-With", "Content-Type"),
+            max_age=3600,
+        )
+    })
 
     # PATCH routes
     app.router.add_patch("/patch/ride/{ride_id}/add/rider/{rider_id}", patches.add_rider)
