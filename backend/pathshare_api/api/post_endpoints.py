@@ -152,8 +152,8 @@ class PostEndpoints(object):
         {
             riders : List[ObjectID]
             departure_date : str
-            departure_location : List[str]
-            destination : List[str]
+            departure_location : str
+            destination : str
             price_per_seat : float         
         }
         """
@@ -173,14 +173,14 @@ class PostEndpoints(object):
         # Make sure the riders listed are active accounts in the database
         riders = data.get("riders")
 
-        for user_id in riders:
+        for ride_id in riders:
             try:
-                _id = ObjectId(user_id)
+                _id = ObjectId(ride_id)
             except Exception as e:
-                return web.json_response({"error": f"User ID {user_id} is not valid. Exception: {e}"}, status=417)
+                return web.json_response({"error": f"User ID {ride_id} is not valid. Exception: {e}"}, status=417)
             user = await self.db.client.users.find_one({"_id": _id})
             if user is None:
-                return web.json_response({"error": f"User ID {user_id} is not associated to any account."}, status=417)
+                return web.json_response({"error": f"User ID {ride_id} is not associated to any account."}, status=417)
         
         # Checks have passed, create the ride
         ride_schema = Ride()
@@ -195,5 +195,5 @@ class PostEndpoints(object):
         document = ride_schema.dump(document).data
 
         # Insert the new ride into the database
-        await self.db.client.rides.insert_one(document)
-        return web.json_response({"success": f"Ride successfully added."}, status=200)
+        inserted_result = await self.db.client.rides.insert_one(document)
+        return web.json_response({"success": f"Ride successfully created: {inserted_result.inserted_id}."}, status=200)

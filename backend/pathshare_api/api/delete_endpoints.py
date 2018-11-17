@@ -46,16 +46,16 @@ class DeleteEndpoints(object):
         try:
             user_id = ObjectId(_id)
         except Exception as e:
-            return web.json_response({"error": f"User ID '{_id}'' is not valid. Exception: {e}"}, status=417)
+            return web.json_response({"error": f"User ID '{_id}' is not valid. Exception: {e}"}, status=417)
 
         user = await self.db.client.users.find_one({"_id": user_id})
         if not user:
-            return web.json_response({"error": f"There are no user with ID: {_id}."}, status=417)
+            return web.json_response({"error": f"There are no user with ID: {_id}."}, status=404)
         
         delete_result = await self.db.client.users.delete_one({"_id": user_id})
         if delete_result.acknowledged:
             return web.json_response({"success": f"Deleted user with ID: {_id}."}, status=200)
-        return web.json_response({"error": f"Unable to delete user with ID: {_id}."}, status=417)
+        return web.json_response({"error": f"Unable to delete user with ID: {_id}."}, status=417) # pragma: no cover
 
 
     async def delete_ride(self, request: aiohttp.web_request.Request) -> web.json_response:
@@ -83,12 +83,12 @@ class DeleteEndpoints(object):
         except Exception as e:
             return web.json_response({"error": f"Ride ID {_id} is not valid. Exception: {e}"}, status=417)
       
-        user = await self.db.client.rides.find_one({"_id": ride_id})
-        if not user:
-            return web.json_response({"error": f"There are no ride with ID: {_id}."}, status=417)
+        ride = await self.db.client.rides.find_one({"_id": ride_id})
+        if not ride:
+            return web.json_response({"error": f"There are no ride with ID: {_id}."}, status=404)
         
         delete_result = await self.db.client.rides.delete_one({"_id": ride_id})
         if delete_result.acknowledged:
             return web.json_response({"success": f"Deleted ride with ID: {_id}."}, status=200)
-        return web.json_response({"error": f"Unable to delete ride with ID: {_id}."}, status=417)
+        return web.json_response({"error": f"Unable to delete ride with ID: {_id}."}, status=417) # pragma: no cover
        
