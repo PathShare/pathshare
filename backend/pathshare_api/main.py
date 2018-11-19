@@ -53,27 +53,8 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     app.router.add_get("/get/validation", gets.get_validation)
     
     # POST routes
-    new_user_resource = cors.add(app.router.add_resource("/post/user/new"))
-    new_user_route = cors.add(
-        new_user_resource.add_route("POST", posts.post_new_user), {
-        "*": aiohttp_cors.ResourceOptions(
-            allow_credentials=True,
-            expose_headers=("X-PathShare-PostEndpoint",),
-            allow_headers=("X-Requested-With", "Content-Type"),
-            max_age=3600,
-        )
-    })
-
-    new_ride_resource = cors.add(app.router.add_resource("/post/ride/new"))
-    new_ride_route = cors.add(
-        new_ride_resource.add_route("POST", posts.post_new_ride), {
-        "*": aiohttp_cors.ResourceOptions(
-            allow_credentials=True,
-            expose_headers=("X-PathShare-PostEndpoint",),
-            allow_headers=("X-Requested-With", "Content-Type"),
-            max_age=3600,
-        )
-    })
+    app.router.add_post("/post/user/new", posts.post_new_user)
+    app.router.add_post("/post/ride/new", posts.post_new_ride)
 
     # PATCH routes
     app.router.add_patch("/patch/ride/{ride_id}/add/rider/{rider_id}", patches.add_rider)
@@ -83,6 +64,19 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     app.router.add_delete("/delete/user", deletes.delete_user)
     app.router.add_delete("/delete/ride", deletes.delete_ride)
 
+    # Enable unrestricted CORS on all routes
+    cors = aiohttp_cors.setup(app, defaults={
+        "*": aiohttp_cors.ResourceOptions(
+                allow_credentials=True,
+                expose_headers="*",
+                allow_headers="*",
+            )
+    })
+
+    for route in list(app.router.routes()):
+        print(route)
+        cors.add(route)
+    
     return app, db
 
 
