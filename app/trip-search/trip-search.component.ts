@@ -35,13 +35,13 @@ export class TripSearchComponent implements OnInit {
     });
 
     this.allTripPoints = [];
-
-    this.searchService.getAllRides().subscribe(rides => {
-      rides.forEach(ride => {
-        this.allTripPoints.push(ride.departureLocation);
-        this.allTripPoints.push(ride.destinationLocation);
-      });
-    });
+//COMMENTED OUT BY KIEN 
+    // this.searchService.getAllRides().subscribe(rides => {
+    //   rides.forEach(ride => {
+    //     this.allTripPoints.push(ride.departureLocation);
+    //     this.allTripPoints.push(ride.destinationLocation);
+    //   });
+    // });
   }
 
   /**

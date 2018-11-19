@@ -19,7 +19,7 @@ export class AuthService {
 
     
 
-    _url = 'http://35.203.92.65/post/user/new'
+    _rootUrl = 'http://104.199.173.34'
 
     constructor(private _http: HttpClient) {}
 
@@ -30,11 +30,16 @@ export class AuthService {
           .set('Content-Type', 'application/json');
 
             console.log(userData)
-            return this._http.post(this._url, userData, {headers : headers})
+            return this._http.post(this._rootUrl + '/post/user/new', userData, {headers : headers})
     }
 
-    signinUser(email: string, password: string) {
-        //sign up the user using backend
-        console.log(email,password)
+    signinUser(userData) {
+
+        const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json');
+
+        //sign in the user using backend
+        console.log(userData)
+        return this._http.get<any>(this._rootUrl + '/get/user?email=simon.woldemichael@ttu.edu', {headers : headers})
     }
 }

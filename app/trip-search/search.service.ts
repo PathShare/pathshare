@@ -9,8 +9,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class SearchService {
 
   constructor(private http: HttpClient) { }
-
-  getAllRides(): Observable<Ride[]> {
-    return this.http.get<Ride[]>('api/rides');
-  }
+//COMMENTED OUT BY KIEN 
+  // getAllRides(): Observable<Ride[]> {
+  //   return this.http.get<Ride[]>('api/rides');
+  // }
 }
