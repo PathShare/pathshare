@@ -1,3 +1,4 @@
+import { User } from './../shared/model/user';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
@@ -24,6 +25,8 @@ export class AuthService {
     constructor(private _http: HttpClient) {}
 
     // POST: Add new user to server 
+    // Test Email: bitegizi@xcodes.net
+    // Test Pass: aaaaaaaaa
     signupUser(userData) {
 
         const headers = new HttpHeaders()
@@ -33,13 +36,11 @@ export class AuthService {
             return this._http.post(this._rootUrl + '/post/user/new', userData, {headers : headers})
     }
 
-    signinUser(userData) {
+    signinUser(userEmail): Observable<User>{
 
         const headers = new HttpHeaders()
         .set('Content-Type', 'application/json');
 
-        //sign in the user using backend
-        console.log(userData)
-        return this._http.get<any>(this._rootUrl + '/get/user?email=simon.woldemichael@ttu.edu', {headers : headers})
+        return this._http.get<User>(this._rootUrl + '/get/user?email=' + userEmail, {headers : headers})
     }
 }

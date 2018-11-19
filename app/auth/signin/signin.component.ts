@@ -1,10 +1,11 @@
+import { UserDataService } from './../user-data.service';
+import { User } from './../../shared/model/user';
 import { AuthService } from './../auth.service';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 //Kien: for popup
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-signin',
@@ -14,9 +15,11 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  // closeResult: string;
+  hideSignInErrorMsg = true
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private _router: Router) {}
+  user: User
+
+  constructor(private modalService: NgbModal, private authService: AuthService, private _router: Router, private _userDataService: UserDataService) {}
 
   openWindowCustomClass(content) {
     this.modalService.open(content, { windowClass: 'dark-modal' });
@@ -25,19 +28,34 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnAppear() {
+
+  }
+
   onSignin(form: NgForm) {
 
-    // userData: Json form of user's data
-    const userData = JSON.stringify(form.value)
-    this.authService.signinUser(userData)
+    const formValue = form.value
+    // getting user email from form
+    const userEmail = formValue['email']
+
+    this.authService.signinUser(userEmail)
       .subscribe(
-        response => console.log("success",response),
-        error => console.log("error", error)
+        data => {
+          this.user = data
+          this._userDataService.updateUser(data['data'])
+          this._router.navigate(['/'])
+          this.modalService.dismissAll()
+        },
+        error => {
+          console.log("error", error)
+          this.hideSignInErrorMsg = false
+        }
       );
+  }
 
-      this._router.navigate(['/'])
-      
 
+  reset() {
+    this.hideSignInErrorMsg = true
   }
 
 }

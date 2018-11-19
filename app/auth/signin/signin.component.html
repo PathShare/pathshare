@@ -2,7 +2,7 @@
 
   <div class="modal-header">
     <h4 class="modal-title">Start Your Trip Here</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); reset()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -28,11 +28,12 @@
                 please enter a password
             </div>
           </div>
+          <div [hidden]="hideSignInErrorMsg" style="text-align: left; margin-left: 10px; margin-top: 10px; color: red">Wrong email, password, or email verification required</div>
     </div>
 
     <div class="modal-footer">
         <button style="align-content: center; padding-top: 10px" type="submit" class="btn btn-primary" [disabled]="!userForm.valid"> Login</button>
-        <button style="align-content: center; padding-top: 10px" type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button style="align-content: center; padding-top: 10px" type="button" class="btn btn-light" (click)="modal.close('Close click'); reset()">Close</button>
     </div>
   </form>
   
@@ -41,7 +42,7 @@
     </div> -->
 
     <div style="padding-left: 255px; padding-bottom:10px">
-      <label>Don't have an account? <a routerLink="/signup"><label class="clickableLab" (click)="modal.close('Close click')"><b>Sign up</b></label></a></label>
+      <label>Don't have an account? <a routerLink="/signup"><label class="clickableLab" (click)="modal.close('Close click'); reset()"><b>Sign up</b></label></a></label>
     </div>
 
 </ng-template>
