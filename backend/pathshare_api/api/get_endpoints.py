@@ -84,19 +84,14 @@ class GetEndpoints(object):
             The first occurs when a user does not exist. (Status 417 => Expectation Failed)
             The second occurs when a user ID is valid. (Status 200 => OK)
         """
-        _id = request.rel_url.query.get("id", None)
-        if _id is None:
-            return web.json_response({"error": "Please provide a user ID as a request argument (key=id)."}, status=417)
+        email = request.rel_url.query.get("email", None)
+        if email is None:
+            return web.json_response({"error": "Please provide an email as a request argument (key=email)."}, status=417)
 
-        try:
-            user_id = ObjectId(_id)
-        except Exception as e:
-            return web.json_response({"error": f"User ID {_id} is not valid. Exception: {e}"}, status=417)
-
-        data = await self.db.client.users.find_one({"_id": user_id})
+        data = await self.db.client.users.find_one({"email": email})
         if not data:
-            return web.json_response({"error": f"There are no user with ID: {_id}."}, status=417)
-        data.pop("_id") # Remove redundant _id
+            return web.json_response({"error": f"There is no user with email: {email}."}, status=404)
+        data["_id"] = str(data.pop("_id")) # Hacky 'seralization' of ObjectId
         data["password"] = await decrypt_password(data.pop("password")) # Update password key with decrypted password
         return web.json_response({"data": data}, status=200)
 

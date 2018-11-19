@@ -74,7 +74,6 @@ def init_app() -> Tuple[web.Application, AsyncIOMotorClient]:
     })
 
     for route in list(app.router.routes()):
-        print(route)
         cors.add(route)
     
     return app, db
