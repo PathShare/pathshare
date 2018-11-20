@@ -1,3 +1,4 @@
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { TripSearchComponent } from './trip-search/trip-search.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,7 +9,9 @@ const appRoutes: Routes = [
   {path: '', redirectTo: 'trip-search', pathMatch:'full'},
   {path: 'trip-search', component: TripSearchComponent },
   {path: 'signup', component: SignupComponent },
-  {path: 'share-my-trip', component: ShareMyTripComponent}
+  {path: 'share-my-trip', component: ShareMyTripComponent},
+  {path: 'view-profile', component: ViewProfileComponent}
+
 ];
 
 @NgModule({

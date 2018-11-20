@@ -24,5 +24,9 @@ export class UserDataService {
       this.user = user
   }
 
+  public getUser() {
+    return this.user
+  }
+
 
 }

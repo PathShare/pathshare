@@ -1,3 +1,5 @@
+import { UserDataService } from './auth/user-data.service';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -26,6 +28,7 @@ import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
     NavbarComponent,
     SignupComponent,
     SigninComponent,
+    ViewProfileComponent,
     ShareMyTripComponent
   ],
   imports: [
@@ -40,7 +43,7 @@ import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
 
     AppRoutingModule
   ],
-  providers: [AuthService,ShareMyTripService],
+  providers: [AuthService,ShareMyTripService,UserDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
