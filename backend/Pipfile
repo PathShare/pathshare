@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+dev = "python pathshare_api/main.py"
+test = "pytest -s --show-progress --cov=./"
+
+[packages]
+aiohttp = "*"
+dnspython = "*"
+aiohttp-devtools = "*"
+motor = "*"
+pymongo = {extras = ["tls"], version = "*"}
+marshmallow = "*"
+cryptography = "*"
+python-dateutil = "*"
+logme = "*"
+python-dotenv = "*"
+aiohttp-cors = "*"
+
+[dev-packages]
+pytest = "*"
+coveralls = "*"
+pytest-cov = "*"
+pytest-progress = "*"
+pytest-aiohttp = "*"
+pytest-asyncio = "*"
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,18 @@
+# .coveragerc to control coverage.py
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+omit =
+	setup.py
+    entrypoint.py
+
+[run]
+omit =
+	setup.py
+    entrypoint.py
+
+[html]
+directory = docs/coverage
