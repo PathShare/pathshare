@@ -14,21 +14,6 @@ class MongoConnection:
     def __init__(self, client):
         self.client = client
 
-    
-    def test_insert(self, message: str):
-        """Insert a document into the database.
-
-        Parameters
-        -----------
-        message : str
-            The message to be inserted into the document.
-        """
-        data = {
-            "pizza": message
-        }
-
-        yield from self.client.users.insert_one(data).inserted_id
-
 
     async def is_duplicate_email(self, email: str) -> bool:
         """Make sure that the email does not already exist in the database.
