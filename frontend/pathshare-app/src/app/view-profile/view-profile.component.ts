@@ -9,7 +9,7 @@ import { UserDataService } from '../auth/user-data.service';
 })
 export class ViewProfileComponent implements OnInit {
 
-  user: User
+  user: User;
 
   constructor(private userDataService: UserDataService) { }
 
@@ -19,8 +19,8 @@ export class ViewProfileComponent implements OnInit {
 
 
   update() {
-    this.user = this.userDataService.getUser()
-    console.log("TESTING:",this.user['name'])
+    this.user = this.userDataService.getUser();
+    console.log('TESTING:', this.user['name']);
   }
 
 }

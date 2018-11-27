@@ -19,9 +19,9 @@ import { ShareMyTripService } from './share-my-trip/share-my-trip.service';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './shared/in-memory-data-service';
 
-//Kien: popup dependencies
+// Kien: popup dependencies
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
+import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component';
 
 
 
@@ -40,17 +40,17 @@ import { ShareMyTripComponent } from './share-my-trip/share-my-trip.component'
     TripSearchModule,
     HttpClientModule,
     RideListingsModule,
-    //Kien: for signup comp
+    // Kien: for signup comp
     FormsModule,
-    //Kien: for signin popup
+    // Kien: for signin popup
     NgbModule,
     ReactiveFormsModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
     AppRoutingModule
   ],
-  providers: [AuthService,ShareMyTripService,UserDataService],
+  providers: [AuthService, ShareMyTripService, UserDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

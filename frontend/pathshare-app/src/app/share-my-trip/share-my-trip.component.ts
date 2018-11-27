@@ -11,12 +11,12 @@ import { ShareMyTripService } from './share-my-trip.service';
 })
 export class ShareMyTripComponent implements OnInit {
 
-  constructor(private shareMyTripService:ShareMyTripService) { }
+  constructor(private shareMyTripService: ShareMyTripService) { }
+
+  today = new Date().toJSON().split('T')[0];
 
   ngOnInit() {
   }
-
-  today = new Date().toJSON().split('T')[0];
 
   onShare(form: NgForm) {
     const startingLocation = form.value.startingLocation;
@@ -25,7 +25,6 @@ export class ShareMyTripComponent implements OnInit {
     const numOfSeats = form.value.numOfSeats;
     const price = form.value.price;
 
-    this.shareMyTripService.shareMyTrip(startingLocation,destinationLocation,inputDate,numOfSeats,price)
-    
+    this.shareMyTripService.shareMyTrip(startingLocation, destinationLocation, inputDate, numOfSeats, price);
   }
 }

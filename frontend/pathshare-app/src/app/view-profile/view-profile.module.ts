@@ -7,7 +7,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,MatCardModule,
+    ReactiveFormsModule, MatCardModule,
   ],
   declarations: [ViewProfileComponent],
   exports: [ViewProfileComponent],

@@ -55,12 +55,33 @@ export class RideListingsComponent implements OnInit {
     switch (this.sortForm.controls['priceSort'].value) {
       case 0:
         // Reset sorted list to original
+        this.sortedRides = this.rides;
         break;
       case 1:
         // Sort low to high
+        let temp = [];
+        temp = this.rides.sort((left, right): number => {
+          if (left.seatPrice < right.seatPrice) {return -1; }
+          if (left.seatPrice > right.seatPrice) {return 1; }
+          return 0;
+        });
+        this.sortedRides = [];
+        temp.forEach(ride => {
+          this.sortedRides.push(ride);
+        });
         break;
       case 2:
         // Sort high to low
+        let tempRides = [];
+        tempRides = this.rides.sort((left, right): number => {
+          if (left.seatPrice < right.seatPrice) {return 1; }
+          if (left.seatPrice > right.seatPrice) {return -1; }
+          return 0;
+        });
+        this.sortedRides = [];
+        tempRides.forEach(ride => {
+          this.sortedRides.push(ride);
+        });
         break;
       default:
         break;

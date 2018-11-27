@@ -10,22 +10,23 @@ export class UserDataService {
 
   user: User = {
     age: -1,
-    email: "string",
+    email: 'string',
     is_validated: false,
-    major: "string",
-    name: "string",
-    password: "string",
-    token: "string",
-    username: "string",
-    _id: "string"}
+    major: 'string',
+    name: 'string',
+    password: 'string',
+    token: 'string',
+    username: 'string',
+    _id: 'string'
+  };
 
   // Update user information to the one on the info fetched from server
   updateUser(user: User) {
-      this.user = user
+      this.user = user;
   }
 
   public getUser() {
-    return this.user
+    return this.user;
   }
 
 
