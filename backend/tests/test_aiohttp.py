@@ -8,6 +8,8 @@ from json import dumps
 
 import pytest
 
+import datetime
+
 from bson.objectid import ObjectId
 
 from pathshare_api.main import init_app
@@ -34,7 +36,7 @@ async def test_new_user(aiohttp_client, loop):
 		"major": "Computer Science",
 		"age": 21,
 		"username": "testing",
-		"email": "testing@mailinator.com", 
+		"email": "testing@mailinato40.com", 
 		"password": "hello"
 	}
 
@@ -107,13 +109,19 @@ async def test_get_ride(aiohttp_client, loop):
 	# Create a new, injected aiohttp_client fixture using the app
 	client = await aiohttp_client(app)
 
+	date_time = str(datetime.datetime.today())
 	# Define the data used for the application
 	# Go to https://www.mailinator.com/v3/index.jsp?zone=public&query=testing#/#inboxpane to view the test email
 
-	#Test - All data keys are present
+	#Create new User:
+
 	data = {
-		"dest": "Houston",
-		"date": ""
+		"name": "testing",
+		"major": "Computer Science",
+		"age": 21,
+		"username": "testing",
+		"email": "testing@mailinat12.com", 
+		"password": "hello"
 	}
 
 	# Set headers
@@ -121,8 +129,46 @@ async def test_get_ride(aiohttp_client, loop):
 		"content-type": "application/json",
 	}
 
+	# Post to the endpoint, make sure to pass data and headers as keyword arguments
+	# Notice that data must be dumped using the json.dumps (dump string) function
+	resp = await client.post("/post/user/new", data=dumps(data), headers=headers)
+
+	# Assert everything went as expected
+	assert resp.status == 200
+	result = await resp.json()
+	assert "success" in result.keys()
+	assert "Account successfully created" in result["success"] 
+	user_id = result["success"].split(": ")[1].strip(".") # Keep the user_id for later
+
+	# Create Ride:
+
+	# Data for a new destination
+	data_dest = {
+            "riders" : [user_id],
+            "departure_date" : date_time,
+            "departure_location" : ["Lubbock"],
+            "destination" : "Houston",
+            "price_per_seat" : 15.5       
+    }
+
+	# Set headers
+	headers = {
+		"content-type": "application/json",
+	}
+
+	# Request creation of a user to be deleted
+	resp = await client.post("/post/ride/new", data=dumps(data_dest), headers=headers)
+
+	# Make sure the user was created
+	assert resp.status == 200
+	result = await resp.json()
+	assert "success" in result.keys()
+	assert f"Ride successfully added." in result["success"] 
+
+	#Test - All data keys are present
+	
 	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/ride?id=", data=dumps(data), headers=headers)
+	resp = await client.get("/get/ride?dest=Houston&date=" + date_time)
 
 	# 200 if destiantion is found in the database
 	assert resp.status == 200
@@ -130,8 +176,10 @@ async def test_get_ride(aiohttp_client, loop):
 
 	#Check if destination is included on json response
 	assert "data" in result.keys()
-	assert "destination" in result["data"].keys()
-	assert result["data"]["destination"] == data["dest"]
+
+	# Remove the test document from the database, ensure pymongo.results.DeleteResult returns ack
+	deletion_result = await db.client.users.delete_one({"_id": ObjectId(user_id)})
+	assert deletion_result.acknowledged
 
 async def test_get_02_ride(aiohttp_client, loop):
 	"""Test all return cases of GetEnpoint.get_ride.
@@ -162,14 +210,14 @@ async def test_get_02_ride(aiohttp_client, loop):
 	}
 
 	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/ride?id=", data=dumps(data), headers=headers)
+	resp = await client.get("/get/ride?dest=mkmefwklmfk&date=", headers=headers)
 
 	# 404 destiantion is not found in the database
 	assert resp.status == 404
 	result = await resp.json()
 
 	assert "error" in result.keys()
-	assert f"There are no rides in the database that match destination = {data["dest"]}." in result["error"]
+	assert f"There are no rides in the database that match destination = {data['dest']}." in result["error"]
 
 
 	#Test - Data Key "dest" is missing
@@ -178,7 +226,7 @@ async def test_get_02_ride(aiohttp_client, loop):
 	}
 
 	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/ride?id=", data=dumps(data), headers=headers)
+	resp = await client.get("/get/ride?date=")
 	# 417 destination key is missing
 	assert resp.status == 417
 
@@ -188,7 +236,7 @@ async def test_get_02_ride(aiohttp_client, loop):
 	}
 
 	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/ride?id=", data=dumps(data), headers=headers)
+	resp = await client.get("/get/ride?dest=")
 	# 417 date key is missing
 	assert resp.status == 417
 
@@ -198,7 +246,7 @@ async def test_get_02_ride(aiohttp_client, loop):
 	}
 
 	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/ride?id=", data=dumps(data), headers=headers)
+	resp = await client.get("/get/ride?")
 	# 417 destination and date key are missing
 	assert resp.status == 417
 
@@ -211,16 +259,20 @@ async def test_get_user(aiohttp_client, loop):
 	--------
 	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
 	"""
-
-	# Create an instance of the application and a connection to the database
+	# Create an instance of the application
 	app, db = init_app()
 
 	# Create a new, injected aiohttp_client fixture using the app
 	client = await aiohttp_client(app)
 
-	#Test - All data keys are present
+	# Data for a new user
 	data = {
-		"id": "5be52a64dfd3e35fac9fc298"
+		"name": "test",
+		"major": "Computer Science",
+		"age": 21,
+		"username": "testing",
+		"email": "testing@mailinato3.com", 
+		"password": "hello"
 	}
 
 	# Set headers
@@ -228,35 +280,43 @@ async def test_get_user(aiohttp_client, loop):
 		"content-type": "application/json",
 	}
 
-	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/user?id=", data=dumps(data), headers=headers)
+	# Request creation of a user to be deleted
+	resp = await client.post("/post/user/new", data=dumps(data), headers=headers)
+
+	# Make sure the user was created
+	assert resp.status == 200
 	result = await resp.json()
+	assert "success" in result.keys()
+	assert "Account successfully created" in result["success"] 
+	user_id = result["success"].split(": ")[1].strip(".") # Keep the user_id for deletion
 
-	assert (resp.status == 200) or (resp.status == 404)
-	if 'error' in result.keys():
-		assert resp.status == 404
-	else:
-		assert "data" in result.keys()
-		assert resp.status == 200
-	
-	#Test - All data keys are present
-	data = {
-		"" : ""
-	}
-
-	# Set headers
-	headers = {
-		"content-type": "application/json",
-	}
+	# Test - Id missing
 
 	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/user?id=", data=dumps(data), headers=headers)
+	resp = await client.get("/get/user?")
 	result = await resp.json()
-
 	assert resp.status == 417
 	assert "error" in result.keys()
-	assert "Please provide a user ID as a request argument (key=id)." == result["error"]
-	
+	assert result["error"] == f"Please provide a user ID as a request argument (key=id)."
+
+	#Test - Id is empty
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get("/get/user?id=")
+	assert resp.status == 500
+
+	#Test - user found
+
+	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	resp = await client.get(f"/get/user?id={user_id}")
+	result = await resp.json()
+	assert resp.status == 200
+	assert "data" in result.keys()
+
+	# Do a valid deletion
+	# Remove the test document from the database, ensure pymongo.results.DeleteResult returns ack
+	deletion_result = await db.client.users.delete_one({"_id": ObjectId(user_id)})
+	assert deletion_result.acknowledged
 
 async def test_get_all_rides(aiohttp_client, loop):
 	"""Test all return cases of GetEnpoint.get_all_rides.
@@ -276,9 +336,6 @@ async def test_get_all_rides(aiohttp_client, loop):
 	resp = await client.get("/get/ride/all")
 	result = await resp.json()
 
-	if "error" in result.keys():
-		assert resp.status == 404
-		return
 	assert resp.status == 200
 
 async def test_get_validation(aiohttp_client, loop):
@@ -289,15 +346,46 @@ async def test_get_validation(aiohttp_client, loop):
 	https://docs.aiohttp.org/en/stable/web_reference.html#response-classes
 	"""
 
-	# Create an instance of the application and a connection to the database
-	app, db = init_app()
+	# # Data for a new user
+	# data = {
+	# 	"name": "test",
+	# 	"major": "Computer Science",
+	# 	"age": 21,
+	# 	"username": "testing",
+	# 	"email": "testing@mailinator.com", 
+	# 	"password": "hello"
+	# }
 
-	# Create a new, injected aiohttp_client fixture using the app
-	client = await aiohttp_client(app)
+	# # Set headers
+	# headers = {
+	# 	"content-type": "application/json",
+	# }
 
-	# GET request to the endpoint, make sure to pass data and headers as keyword arguments
-	resp = await client.get("/get/validation")
-	result = await resp.json()
+	# # Request creation of a user to be deleted
+	# resp = await client.post("/post/user/new", data=dumps(data), headers=headers)
 
-	### Continue test validation here ############
+	# # Make sure the user was created
+	# assert resp.status == 200
+	# result = await resp.json()
+	# assert "success" in result.keys()
+	# assert "Account successfully created" in result["success"] 
+	# user_id = result["success"].split(": ")[1].strip(".") # Keep the user_id for later
+
+
+
+
+
+
+
+	# # Create an instance of the application and a connection to the database
+	# app, db = init_app()
+
+	# # Create a new, injected aiohttp_client fixture using the app
+	# client = await aiohttp_client(app)
+
+	# # GET request to the endpoint, make sure to pass data and headers as keyword arguments
+	# resp = await client.get("/get/validation")
+	# result = await resp.json()
+
+	# ### Continue test validation here ############
 
