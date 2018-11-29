@@ -9,7 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     ReactiveFormsModule, MatCardModule,
   ],
-  declarations: [ViewProfileComponent],
-  exports: [ViewProfileComponent],
+  declarations: [],
+  exports: [],
 })
 export class ViewProfileModule { }
